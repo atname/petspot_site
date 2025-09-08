@@ -1,0 +1,117 @@
+:root {
+  --accent-orange: #FF8C42;
+  --dark-accent: #FF8C42;
+  --dark-base: #121212;
+  --medium-base: #1F1F1F;
+  --light-background: #EAE3DD;
+  --light-surface: #FFD8B4;
+  --white: #FFFFFF;
+  --black: #000000;
+  --light-gray: #CCCCCC;
+  --status-green: #4CAF50;
+  --status-red: #FF4C4C;
+  --status-yellow: #FFEB3B;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: var(--light-background);
+  color: var(--dark-base);
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--medium-base);
+  color: var(--white);
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.slogan {
+  flex: 1 1 100%;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav ul li {
+  margin: 0 10px;
+}
+
+.nav a {
+  color: var(--white);
+  text-decoration: none;
+}
+
+.lang-switch {
+  margin-left: auto;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lang-switch .active {
+  color: var(--accent-orange);
+}
+
+main {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.download-btn {
+  background: var(--accent-orange);
+  border: none;
+  padding: 10px 20px;
+  color: var(--black);
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--medium-base);
+  color: var(--white);
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+  }
+  .slogan {
+    order: 3;
+    margin: 10px 0;
+  }
+  .nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav ul li {
+    margin: 5px 0;
+  }
+  .lang-switch {
+    order: 2;
+    margin: 10px 0;
+  }
+}
