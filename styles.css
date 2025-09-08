@@ -1,117 +1,219 @@
-:root {
-  --accent-orange: #FF8C42;
-  --dark-accent: #FF8C42;
-  --dark-base: #121212;
-  --medium-base: #1F1F1F;
-  --light-background: #EAE3DD;
-  --light-surface: #FFD8B4;
-  --white: #FFFFFF;
-  --black: #000000;
-  --light-gray: #CCCCCC;
-  --status-green: #4CAF50;
-  --status-red: #FF4C4C;
-  --status-yellow: #FFEB3B;
-}
-
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background: var(--light-background);
-  color: var(--dark-base);
-}
-
-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--medium-base);
-  color: var(--white);
-  padding: 10px 20px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.slogan {
-  flex: 1 1 100%;
-  text-align: center;
-  margin-top: 5px;
-}
-
-.nav ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav ul li {
-  margin: 0 10px;
-}
-
-.nav a {
-  color: var(--white);
-  text-decoration: none;
-}
-
-.lang-switch {
-  margin-left: auto;
-}
-
-.lang-switch button {
-  background: none;
-  border: none;
-  color: var(--white);
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.lang-switch .active {
-  color: var(--accent-orange);
-}
-
-main {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.download-btn {
-  background: var(--accent-orange);
-  border: none;
-  padding: 10px 20px;
-  color: var(--black);
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 20px;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  background: var(--medium-base);
-  color: var(--white);
-}
-
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-  }
-  .slogan {
-    order: 3;
-    margin: 10px 0;
-  }
-  .nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
-  .nav ul li {
-    margin: 5px 0;
-  }
-  .lang-switch {
-    order: 2;
-    margin: 10px 0;
-  }
-}
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/styles.css b/styles.css
+index fba95449d4f2a62d3c0996b22e28a94be2e42a96..2b0748fd196961c6e7944bcfc38a4a5b7f7f096e 100644
+--- a/styles.css
++++ b/styles.css
+@@ -1,117 +1,135 @@
+ :root {
+-  --accent-orange: #FF8C42;
+-  --dark-accent: #FF8C42;
+-  --dark-base: #121212;
+-  --medium-base: #1F1F1F;
+-  --light-background: #EAE3DD;
+-  --light-surface: #FFD8B4;
+-  --white: #FFFFFF;
+-  --black: #000000;
+-  --light-gray: #CCCCCC;
+-  --status-green: #4CAF50;
+-  --status-red: #FF4C4C;
+-  --status-yellow: #FFEB3B;
++  --bg: #fff3e1;
++  --accent: #ff8c42;
++  --card-bg: #ffe9d5;
++  --dark: #1f1f1f;
++  --white: #ffffff;
+ }
+ 
+ body {
+   margin: 0;
+   font-family: sans-serif;
+-  background: var(--light-background);
+-  color: var(--dark-base);
++  background: var(--bg);
++  color: var(--dark);
+ }
+ 
+-header {
++.site-header {
+   display: flex;
+-  flex-wrap: wrap;
+-  align-items: center;
+   justify-content: space-between;
+-  background: var(--medium-base);
+-  color: var(--white);
+-  padding: 10px 20px;
++  align-items: center;
++  padding: 20px;
+ }
+ 
+-.logo {
+-  font-size: 1.5rem;
+-  font-weight: bold;
++.menu ul {
++  list-style: none;
++  margin: 0;
++  padding: 0;
++  display: flex;
++  gap: 20px;
+ }
+ 
+-.slogan {
+-  flex: 1 1 100%;
+-  text-align: center;
+-  margin-top: 5px;
++.menu a {
++  text-decoration: none;
++  color: var(--dark);
++  font-weight: 600;
+ }
+ 
+-.nav ul {
++.hero {
++  padding: 40px 20px;
++}
++
++.hero-content {
+   display: flex;
+-  list-style: none;
+-  padding: 0;
+-  margin: 0;
++  align-items: center;
++  justify-content: space-between;
++  flex-wrap: wrap;
++  gap: 40px;
++}
++
++.hero-left {
++  flex: 1 1 300px;
++}
++
++.hero-right {
++  flex: 1 1 300px;
++  text-align: center;
+ }
+ 
+-.nav ul li {
+-  margin: 0 10px;
++.store-buttons {
++  display: flex;
++  gap: 10px;
++  margin: 20px 0;
+ }
+ 
+-.nav a {
++.store-buttons a {
++  display: inline-block;
++  padding: 10px 20px;
++  border-radius: 8px;
++  background: #000;
+   color: var(--white);
+   text-decoration: none;
++  font-size: 0.9rem;
+ }
+ 
+-.lang-switch {
+-  margin-left: auto;
++.features {
++  display: flex;
++  gap: 10px;
++  margin-top: 30px;
++  flex-wrap: wrap;
+ }
+ 
+-.lang-switch button {
+-  background: none;
+-  border: none;
+-  color: var(--white);
+-  cursor: pointer;
+-  font-weight: bold;
++.feature-card {
++  display: flex;
++  align-items: center;
++  gap: 5px;
++  background: var(--card-bg);
++  padding: 10px 15px;
++  border-radius: 8px;
++  font-weight: 600;
+ }
+ 
+-.lang-switch .active {
+-  color: var(--accent-orange);
++.phone-mockup {
++  position: relative;
++  display: inline-block;
+ }
+ 
+-main {
+-  text-align: center;
+-  padding: 40px 20px;
++.phone-mockup img {
++  max-width: 280px;
++  width: 100%;
+ }
+ 
+-.download-btn {
+-  background: var(--accent-orange);
++.phone-buttons {
++  position: absolute;
++  top: 25%;
++  left: 50%;
++  transform: translateX(-50%);
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++  width: 70%;
++}
++
++.phone-buttons button {
++  padding: 10px;
+   border: none;
+-  padding: 10px 20px;
+-  color: var(--black);
+-  cursor: pointer;
+-  font-size: 1rem;
+-  margin-top: 20px;
++  border-radius: 10px;
++  background: var(--white);
++  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+ 
+-footer {
+-  text-align: center;
+-  padding: 20px;
+-  background: var(--medium-base);
+-  color: var(--white);
++.hero-footer {
++  margin-top: 40px;
++  display: flex;
++  justify-content: center;
++  gap: 20px;
++  font-size: 0.8rem;
+ }
+ 
+-@media (max-width: 600px) {
+-  header {
+-    flex-direction: column;
+-  }
+-  .slogan {
+-    order: 3;
+-    margin: 10px 0;
+-  }
+-  .nav ul {
++@media (max-width: 768px) {
++  .hero-content {
+     flex-direction: column;
+-    align-items: center;
+-  }
+-  .nav ul li {
+-    margin: 5px 0;
+   }
+-  .lang-switch {
+-    order: 2;
+-    margin: 10px 0;
++  .phone-mockup img {
++    max-width: 200px;
+   }
+ }
+ 
+EOF
+)
