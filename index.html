@@ -1,53 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PetSpot</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="logo">PetSpot</div>
-    <nav class="nav">
-      <ul>
-        <li><a href="#">Главная</a></li>
-        <li><a href="#">Функции</a></li>
-        <li><a href="#">Паспорт</a></li>
-        <li><a href="#">Услуги</a></li>
-        <li><a href="#">Скачать</a></li>
-        <li><a href="#">Контакты</a></li>
-      </ul>
-    </nav>
-    <div class="lang-switch">
-      <button class="active">RU</button> |
-      <button>GE</button> |
-      <button>EN</button>
-    </div>
-  </header>
+  <div class="container">
+    <section class="hero">
+      <header class="hero-header">
+        <div class="logo">PetSpot</div>
+        <nav>
+          <ul class="nav">
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#features">Функции</a></li>
+            <li><a href="#download">Скачать</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+          </ul>
+        </nav>
+      </header>
 
-  <section class="hero">
-    <div class="hero-left">
-      <h1>PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
-      <p>Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
-      <div class="store-buttons">
-        <a href="#" class="appstore">App Store</a>
-        <a href="#" class="googleplay">Google Play</a>
+      <div class="hero-body">
+        <div class="hero-left">
+          <h1>PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
+          <p>Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
+
+          <div class="store-row">
+            <a class="store-badge appstore" href="#" aria-label="Загрузите в App Store">Загрузите в App Store</a>
+            <a class="store-badge playmarket" href="#" aria-label="Доступно в Google Play">Доступно в Google Play</a>
+          </div>
+
+          <div class="feature-cards">
+            <div class="card"><div class="icon">P</div><div class="title">Онлайн-паспорт</div></div>
+            <div class="card"><div class="icon">•</div><div class="title">Услуги рядом</div></div>
+          </div>
+        </div>
+
+        <aside class="hero-right">
+          <div class="phone">
+            <div class="phone-item"><div class="dot">S</div><div class="label">Паспорт</div></div>
+            <div class="phone-item"><div class="dot">•</div><div class="label">Услуги рядом</div></div>
+            <div class="phone-item"><div class="dot">+</div><div class="label">Ветклиники</div></div>
+          </div>
+
+          <div class="hero-meta">
+            <div class="meta-title">Booking – Безопасность</div>
+            <a class="meta-link" href="#">Политика конфиденциальности</a>
+          </div>
+        </aside>
       </div>
-      <div class="features">
-        <div class="feature-card">🐾 <span>Онлайн-паспорт</span></div>
-        <div class="feature-card">📍 <span>Услуги рядом</span></div>
-        <div class="feature-card">➕ <span>Ветклиники</span></div>
-      </div>
-    </div>
-    <div class="hero-right"></div>
-  </section>
-
-  <footer class="footer">
-    <p>© 2025 PetSpot — Все права защищены.</p>
-    <small>Booking – Безопасность | Политика конфиденциальности</small>
-  </footer>
-
-  <script src="script.js"></script>
+    </section>
+  </div>
 </body>
 </html>
