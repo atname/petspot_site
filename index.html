@@ -1,37 +1,89 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PetSpot</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <div class="logo">PetSpot</div>
-    <div class="slogan" data-i18n="tagline">Онлайн паспорт питомца и поиск услуг</div>
-    <nav class="nav">
-      <ul>
-        <li><a href="#" data-i18n="nav.home">Главная</a></li>
-        <li><a href="#" data-i18n="nav.services">Услуги</a></li>
-        <li><a href="#" data-i18n="nav.about">О нас</a></li>
-        <li><a href="#" data-i18n="nav.contact">Контакты</a></li>
-      </ul>
-    </nav>
-    <div class="lang-switch">
-      <button data-lang="ru" class="active">RU</button> |
-      <button data-lang="ge">GE</button> |
-      <button data-lang="en">EN</button>
-    </div>
-  </header>
-  <main>
-    <h1 data-i18n="welcome">Добро пожаловать в PetSpot</h1>
-    <p data-i18n="description">PetSpot — онлайн паспорт питомца и поиск услуг</p>
-    <button class="download-btn" data-i18n="download">Скачать приложение</button>
-  </main>
-  <footer>
-    <p>© 2025 PetSpot — <span data-i18n="rights">Все права защищены</span></p>
-  </footer>
-  <script src="script.js"></script>
-</body>
-</html>
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/index.html b/index.html
+index d8a22301ce29361ed6482ed42282de73c805be9b..4935e0256216fb647f7e81e75d4ee787bc78028c 100644
+--- a/index.html
++++ b/index.html
+@@ -1,37 +1,57 @@
+ <!DOCTYPE html>
+ <html lang="ru">
+ <head>
+-  <meta charset="UTF-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
++  <meta charset="UTF-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>PetSpot</title>
+-  <link rel="stylesheet" href="styles.css">
++  <link rel="stylesheet" href="styles.css" />
+ </head>
+ <body>
+-  <header>
++  <header class="site-header">
+     <div class="logo">PetSpot</div>
+-    <div class="slogan" data-i18n="tagline">Онлайн паспорт питомца и поиск услуг</div>
+-    <nav class="nav">
++    <nav class="menu">
+       <ul>
+-        <li><a href="#" data-i18n="nav.home">Главная</a></li>
+-        <li><a href="#" data-i18n="nav.services">Услуги</a></li>
+-        <li><a href="#" data-i18n="nav.about">О нас</a></li>
+-        <li><a href="#" data-i18n="nav.contact">Контакты</a></li>
++        <li><a href="#">Функции</a></li>
++        <li><a href="#">Паспорт</a></li>
++        <li><a href="#">Услуги</a></li>
++        <li><a href="#">Скачать</a></li>
++        <li><a href="#">Контакты</a></li>
+       </ul>
+     </nav>
+-    <div class="lang-switch">
+-      <button data-lang="ru" class="active">RU</button> |
+-      <button data-lang="ge">GE</button> |
+-      <button data-lang="en">EN</button>
+-    </div>
+   </header>
+-  <main>
+-    <h1 data-i18n="welcome">Добро пожаловать в PetSpot</h1>
+-    <p data-i18n="description">PetSpot — онлайн паспорт питомца и поиск услуг</p>
+-    <button class="download-btn" data-i18n="download">Скачать приложение</button>
+-  </main>
+-  <footer>
+-    <p>© 2025 PetSpot — <span data-i18n="rights">Все права защищены</span></p>
+-  </footer>
++
++  <section class="hero">
++    <div class="hero-content">
++      <div class="hero-left">
++        <h1>PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
++        <p>Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
++        <div class="store-buttons">
++          <a href="#" class="appstore">Загрузите в App Store</a>
++          <a href="#" class="googleplay">Доступно в Google Play</a>
++        </div>
++        <div class="features">
++          <div class="feature-card">🐾 <span>Онлайн-паспорт</span></div>
++          <div class="feature-card">📍 <span>Услуги рядом</span></div>
++          <div class="feature-card">➕ <span>Ветклиники</span></div>
++        </div>
++      </div>
++      <div class="hero-right">
++        <div class="phone-mockup">
++          <img src="images/phone.png" alt="Phone" />
++          <div class="phone-buttons">
++            <button>Паспорт</button>
++            <button>Услуги рядом</button>
++            <button>Ветклиники</button>
++          </div>
++        </div>
++      </div>
++    </div>
++    <div class="hero-footer">
++      <span>Booking – Безопасность</span>
++      <span>Политика конфиденциальности</span>
++    </div>
++  </section>
++
+   <script src="script.js"></script>
+ </body>
+ </html>
+ 
+EOF
+)
