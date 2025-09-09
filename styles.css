@@ -37,43 +37,46 @@ a:focus {
 }
 
 .hero {
-  margin-top: 24px;
-  background: var(--light-surface);
-  border-radius: 28px;
-  padding: 48px;
-  box-shadow: 0 16px 40px rgba(0,0,0,.07);
-}
+    margin-top: 24px;
+    background: var(--light-surface);
+    border-radius: 28px;
+    padding: 48px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.07);
+    position: relative;
+  }
 
-.hero-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .hero-body {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-top: 40px;
+  }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
+  .lang-switch {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 4px;
+  }
 
-.nav {
-  list-style: none;
-  display: flex;
-  gap: 24px;
-  margin: 0;
-  padding: 0;
-}
+  .lang-switch button {
+    background: none;
+    border: none;
+    color: var(--black);
+    cursor: pointer;
+    padding: 0;
+  }
 
-.nav a {
-  color: var(--black);
-  font-size: 16px;
-}
+  .lang-switch button.active {
+    color: var(--accent-orange);
+  }
 
-.hero-body {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  margin-top: 40px;
-}
+  .lang-switch .sep {
+    color: var(--light-gray);
+  }
 
 .hero-left {
   flex: 1 1 60%;
