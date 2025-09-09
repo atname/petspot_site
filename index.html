@@ -1,53 +1,132 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PetSpot</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSpot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
 </head>
 <body>
-  <div class="container">
-    <section class="hero">
-      <div class="lang-switch" aria-label="Language">
-        <button data-lang="ge">GE</button>
-        <span class="sep">|</span>
-        <button data-lang="ru" class="active">RU</button>
-        <span class="sep">|</span>
-        <button data-lang="en">EN</button>
-      </div>
-
-      <div class="hero-body">
-        <div class="hero-left">
-          <h1 data-i18n="hero_title">PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
-          <p data-i18n="hero_subtitle">Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
-
-          <div class="store-row">
-            <a class="store-badge appstore" href="#" aria-label="App Store badge"><!-- TODO: appstore-badge.png --></a>
-            <a class="store-badge playmarket" href="#" aria-label="Google Play badge"><!-- TODO: googleplay-badge.png --></a>
-          </div>
-
-          <div class="feature-cards">
-            <div class="card"><div class="icon">P</div><div class="title" data-i18n="card_passport">Онлайн-паспорт</div></div>
-            <div class="card"><div class="icon">•</div><div class="title" data-i18n="card_services">Услуги рядом</div></div>
-          </div>
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-header">
+            <!-- Прозрачный прямоугольник с логотипом -->
+            <div class="topbar">
+                <div class="logo-block">
+                    <div class="logo">
+                        <img src="images/logo.png" alt="PetSpot Logo">
+                    </div>
+                    <span class="logo-text">PetSpot</span>
+                </div>
+            </div>
         </div>
 
-        <aside class="hero-right">
-          <div class="phone">
-            <div class="phone-item"><div class="dot">S</div><div class="label" data-i18n="phone_passport">Паспорт</div></div>
-            <div class="phone-item"><div class="dot">•</div><div class="label" data-i18n="phone_services">Услуги рядом</div></div>
-            <div class="phone-item"><div class="dot">+</div><div class="label" data-i18n="phone_vet">Ветклиники</div></div>
-          </div>
+        <div class="hero-body">
+            <div class="hero-left">
+                <h1 data-i18n="hero_title">PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
+                <p data-i18n="hero_subtitle">
+                    Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу
+                </p>
 
-          <div class="hero-meta">
-            <div class="meta-title" data-i18n="meta_title">Booking – Безопасность</div>
-            <a class="meta-link" href="#" data-i18n="meta_link">Политика конфиденциальности</a>
-          </div>
-        </aside>
-      </div>
-    </section>
-  </div>
-</body>
+                <div class="store-row">
+                    <a class="store-badge appstore" href="https://apps.apple.com" target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="images/appstore-badge.png" alt="App Store"/>
+                    </a>
+                    <a class="store-badge playmarket"
+                       href="https://play.google.com/store/apps/details?id=com.threecats.petssearcher" target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="images/googleplay-badge.png" alt="Google Play"/>
+                    </a>
+                </div>
+
+                <div class="feature-cards">
+                    <div class="card">
+                        <div class="icon">
+                            <img src="images/passport.png" alt="">
+                        </div>
+                        <div class="title" data-i18n="card_passport">Онлайн-паспорт</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="icon">
+                            <img src="images/services.png" alt="">
+                        </div>
+                        <div class="title" data-i18n="card_services">Услуги рядом</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="icon">
+                            <img src="images/clinics.png" alt="">
+                        </div>
+                        <div class="title" data-i18n="card_clinic">Клиники с услугами</div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="hero-right">
+                <div class="phone-wrapper">
+                    <div class="phone">
+                        <div class="slider">
+                            <div class="slides" id="slides"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- ==== ФУТЕР ==== -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>PetSpot</h4>
+            <p data-i18n="footer_about">Онлайн-паспорт питомца и сервисы рядом</p>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-i18n="footer_docs">Документы</h4>
+            <a href="#" data-i18n="footer_privacy">Политика конфиденциальности</a>
+            <a href="#" data-i18n="footer_terms">Условия использования</a>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-i18n="footer_contacts">Контакты</h4>
+            <a href="mailto:support@petspot.love">support@petspot.love</a>
+            <a href="#">Telegram</a>
+        </div>
+
+        <div class="footer-col">
+            <h4 data-i18n="footer_lang">Язык</h4>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <img src="images/flags/ru.png" alt="RU">
+                    <span>Русский</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button data-lang="ge">
+                        <img src="images/flags/ge.png" alt="GE">
+                        <span>ქართული</span>
+                    </button>
+                    <button data-lang="ru" class="active">
+                        <img src="images/flags/ru.png" alt="RU">
+                        <span>Русский</span>
+                    </button>
+                    <button data-lang="en">
+                        <img src="images/flags/en.png" alt="EN">
+                        <span>English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 PetSpot. <span data-i18n="footer_rights">Все права защищены.</span>
+    </div>
+</footer>
+
 <script src="script.js"></script>
+</body>
 </html>

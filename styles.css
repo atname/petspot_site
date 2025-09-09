@@ -1,232 +1,420 @@
 :root {
-  --accent-orange: #FF8C42;
-  --light-background: #EAE3DD;
-  --light-surface: #FFD8B4;
-  --dark-base: #121212;
-  --medium-base: #1F1F1F;
-  --white: #FFFFFF;
-  --black: #000000;
-  --light-gray: #CCCCCC;
+    --accent-orange: #FF8C42;
+    --light-background: #eddcd1;
+    --light-surface: #fff4e2;
+    --dark-base: #121212;
+    --medium-base: #1F1F1F;
+    --white: #FFFFFF;
+    --black: #000000;
+    --light-gray: #CCCCCC;
+}
+
+@font-face {
+    font-family: "MyUI";
+    src: url("fonts/NotoSans.ttf") format("truetype"); /* временно можно так */
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Используем */
+body {
+    margin: 0;
+    font-family: "MyUI", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--light-background);
+    color: var(--black);
 }
 
 *, *::before, *::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--light-background);
-  color: var(--black);
+    box-sizing: border-box;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 a:focus {
-  outline: 2px solid var(--accent-orange);
-  outline-offset: 2px;
+    outline: 2px solid var(--accent-orange);
+    outline-offset: 2px;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+    max-width: 1200px; /* ширина блока (можно 1100, 1000 — подбери) */
+    margin: 0 auto; /* центрируем */
+    padding: 0 24px; /* отступы по бокам, чтобы не липло */
 }
 
 .hero {
-    margin-top: 24px;
+    margin-top: 0;
     background: var(--light-surface);
-    border-radius: 28px;
-    padding: 48px;
-    box-shadow: 0 16px 40px rgba(0,0,0,.07);
+    border-radius: 0;
+    padding: 48px 0; /* сверху/снизу */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .07);
     position: relative;
-  }
+    width: 100%; /* тянем на всю ширину */
+}
 
-  .hero-body {
+.hero-inner {
+    max-width: 1200px; /* ограничение ширины контента */
+    margin: 0 auto; /* центрируем */
+    padding: 0 24px; /* немного воздуха по бокам */
+}
+
+.hero-body {
     display: flex;
     gap: 40px;
     align-items: center;
     margin-top: 40px;
-  }
+}
 
-  .lang-switch {
-    position: absolute;
-    top: 16px;
-    right: 16px;
+/* БЫЛО absolute — теперь в потоке и выравнивается с логотипом */
+.lang-switch {
+    position: static;
+    margin-left: auto;
     display: flex;
     align-items: center;
-    font-size: 14px;
-    gap: 4px;
-  }
-
-  .lang-switch button {
-    background: none;
-    border: none;
-    color: var(--black);
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .lang-switch button.active {
-    color: var(--accent-orange);
-  }
-
-  .lang-switch .sep {
-    color: var(--light-gray);
-  }
+}
 
 .hero-left {
-  flex: 1 1 60%;
+    flex: 1 1 60%;
 }
 
 .hero-right {
-  flex: 1 1 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+    flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
 }
 
 h1 {
-  font-size: 48px;
-  line-height: 1.15;
-  margin: 8px 0 12px;
-  color: #2E2E2E;
+    font-size: 48px;
+    line-height: 1.15;
+    margin: 8px 0 0px;
+    color: #2E2E2E;
 }
 
 p {
-  font-size: 18px;
-  line-height: 1.6;
-  color: rgba(0,0,0,.75);
-  max-width: 640px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, .75);
+    max-width: 640px;
+    margin-bottom: 64px; /* добавил отступ вниз */
 }
 
 .store-row {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
+    display: flex;
+    gap: 16px;
+    margin-top: 0; /* убрал сверху */
+    margin-top: 50px; /* добавил снизу, чтобы бейджи не липли к карточкам */
 }
 
 .store-badge {
-  width: 180px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #2B2B2B;
-  color: #FFF;
-  border-radius: 12px;
-  font-weight: 600;
-  box-shadow: 0 6px 14px rgba(0,0,0,.15);
+    display: inline-block;
+}
+
+.store-badge img {
+    height: 52px;
+    width: auto;
+    display: block;
 }
 
 .feature-cards {
-  display: flex;
-  gap: 24px;
-  margin-top: 28px;
+    display: flex;
+    gap: 32px; /* больше расстояние между карточками */
+    margin-top: 100px;
+}
+
+.feature-cards .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* чтобы не обрезало, а влезало целиком */
 }
 
 .card {
-  width: 280px;
-  height: 120px;
-  background: var(--light-surface);
-  border-radius: 24px;
-  box-shadow: 0 8px 22px rgba(0,0,0,.08);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 20px 22px;
+    width: 250px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.35); /* прозрачный белый */
+    border-radius: 16px;
+    box-shadow: 0px 0px 16px rgba(255, 140, 66, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
 }
 
 .icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: var(--accent-orange);
-  color: #FFF;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+
+.icon img {
+    width: 80%; /* можно регулировать: 100% = во весь круг, 80% = с отступами */
+    height: auto; /* сохраняем пропорции */
+    object-fit: contain;
 }
 
 .phone {
-  width: 360px;
-  height: 640px;
-  border-radius: 36px;
-  background: linear-gradient(#FFF,#FFF8F0);
-  box-shadow: 0 10px 28px rgba(0,0,0,.08), inset 0 0 0 1px rgba(0,0,0,.06);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.phone-item {
-  background: #FFF;
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0,0,0,.07);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  width: 100%;
-}
-
-.dot {
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  background: var(--accent-orange);
-  color: #FFF;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-}
-
-.hero-meta .meta-title {
-  color: rgba(0,0,0,.78);
-  margin-top: 18px;
+    width: 360px;
+    height: 740px;
+    border-radius: 36px;
+    background: linear-gradient(#FFF, #FFF8F0);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .08), inset 0 0 0 1px rgba(0, 0, 0, .06);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-meta .meta-link {
-  color: rgba(0,0,0,.62);
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-block;
-  margin-top: 4px;
+    color: rgba(0, 0, 0, .62);
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 4px;
+    display: inline-block;
 }
 
-.hero-meta .meta-link:focus {
-  outline: 2px solid var(--accent-orange);
-  outline-offset: 2px;
+.hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 70px;
 }
 
-@media (max-width: 960px) {
-  .hero-body {
-    flex-direction: column;
-  }
-  .hero-left,
-  .hero-right {
+.logo-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1;
+}
+
+/* === ПОЛУПРОЗРАЧНЫЙ ПРЯМОУГОЛЬНИК В ХЕДЕРЕ (glass) === */
+.topbar {
     width: 100%;
-  }
-  .store-row,
-  .feature-cards {
-    flex-direction: column;
-  }
-  .store-badge,
-  .card {
-    width: 100%;
-  }
-  h1 {
-    font-size: 36px;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.35); /* прозрачный белый */
+    border: 1px solid rgba(255, 255, 255, 0.6); /* тонкая светлая рамка */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .08); /* мягкая тень */
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
-@media (max-width: 560px) {
-  .hero {
-    padding: 24px;
-  }
+/* === Языковой переключатель === */
+.lang-dropdown {
+    position: relative;
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.lang-btn:hover {
+    background: #f5f5f5;
+}
+
+.lang-btn img {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* общий стиль */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* вместо 50px */
+    right: 0;
+    margin-top: 6px; /* небольшой зазор */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .15);
+    display: flex;
+    flex-direction: column;
+    padding: 6px 0;
+    min-width: 140px;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 100;
+}
+
+
+.dropdown-menu button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.dropdown-menu button:hover {
+    background: #f5f5f5;
+}
+
+.dropdown-menu img {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.lang-dropdown.open .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* === Слайдер === */
+.slider {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+}
+
+.slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease-in-out; /* анимация движения справа налево */
+}
+
+.slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* заполняет экран телефона */
+    flex-shrink: 0; /* не сжимать */
+}
+
+/* === ДОБАВЛЯЕМ ОРАНЖЕВЫЙ БЛЮР ЗА ТЕЛЕФОНОМ === */
+.phone-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: rgba(255, 140, 66, 0.6); /* просто оранжевый */
+    filter: blur(15px); /* регулируй интенсивность свечения */
+    border-radius: 50px; /* можно 0 для прямого */
+    z-index: 0;
+}
+
+/* ==== FOOTER ==== */
+.footer {
+    background: #e8d8ca; /* другой цвет */
+    padding: 40px 20px 20px;
+    margin-top: 60px;
+}
+
+.footer .lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.footer .dropdown-menu {
+    top: calc(100% + 6px) !important; /* сразу под кнопкой, без «уезда» */
+    left: 0 !important;
+    right: auto !important;
+    margin: 0;
+    transform: translateY(0); /* без дополнительного сдвига */
+}
+
+.footer .lang-dropdown.open .dropdown-menu {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-col {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-col h4 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #2E2E2E;
+}
+
+.footer-col p {
+    margin: 0; /* убираем стандартный */
+}
+
+.footer-col a {
+    font-size: 14px;
+    color: rgba(0, 0, 0, .75);
+    text-decoration: none;
+}
+
+.footer-col a:hover {
+    color: var(--accent-orange);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, .6);
 }
