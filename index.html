@@ -9,48 +9,45 @@
 <body>
   <div class="container">
     <section class="hero">
-      <header class="hero-header">
-        <div class="logo">PetSpot</div>
-        <nav>
-          <ul class="nav">
-            <li><a href="#home">Главная</a></li>
-            <li><a href="#features">Функции</a></li>
-            <li><a href="#download">Скачать</a></li>
-            <li><a href="#contacts">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
+      <div class="lang-switch" aria-label="Language">
+        <button data-lang="ge">GE</button>
+        <span class="sep">|</span>
+        <button data-lang="ru" class="active">RU</button>
+        <span class="sep">|</span>
+        <button data-lang="en">EN</button>
+      </div>
 
       <div class="hero-body">
         <div class="hero-left">
-          <h1>PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
-          <p>Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
+          <h1 data-i18n="hero_title">PetSpot — онлайн-паспорт питомца и услуги рядом</h1>
+          <p data-i18n="hero_subtitle">Храните прививки и документы, находите грумеров, ветеринаров и передержку по вашему городу</p>
 
           <div class="store-row">
-            <a class="store-badge appstore" href="#" aria-label="Загрузите в App Store">Загрузите в App Store</a>
-            <a class="store-badge playmarket" href="#" aria-label="Доступно в Google Play">Доступно в Google Play</a>
+            <a class="store-badge appstore" href="#" aria-label="App Store badge"><!-- TODO: appstore-badge.png --></a>
+            <a class="store-badge playmarket" href="#" aria-label="Google Play badge"><!-- TODO: googleplay-badge.png --></a>
           </div>
 
           <div class="feature-cards">
-            <div class="card"><div class="icon">P</div><div class="title">Онлайн-паспорт</div></div>
-            <div class="card"><div class="icon">•</div><div class="title">Услуги рядом</div></div>
+            <div class="card"><div class="icon">P</div><div class="title" data-i18n="card_passport">Онлайн-паспорт</div></div>
+            <div class="card"><div class="icon">•</div><div class="title" data-i18n="card_services">Услуги рядом</div></div>
           </div>
         </div>
 
         <aside class="hero-right">
           <div class="phone">
-            <div class="phone-item"><div class="dot">S</div><div class="label">Паспорт</div></div>
-            <div class="phone-item"><div class="dot">•</div><div class="label">Услуги рядом</div></div>
-            <div class="phone-item"><div class="dot">+</div><div class="label">Ветклиники</div></div>
+            <div class="phone-item"><div class="dot">S</div><div class="label" data-i18n="phone_passport">Паспорт</div></div>
+            <div class="phone-item"><div class="dot">•</div><div class="label" data-i18n="phone_services">Услуги рядом</div></div>
+            <div class="phone-item"><div class="dot">+</div><div class="label" data-i18n="phone_vet">Ветклиники</div></div>
           </div>
 
           <div class="hero-meta">
-            <div class="meta-title">Booking – Безопасность</div>
-            <a class="meta-link" href="#">Политика конфиденциальности</a>
+            <div class="meta-title" data-i18n="meta_title">Booking – Безопасность</div>
+            <a class="meta-link" href="#" data-i18n="meta_link">Политика конфиденциальности</a>
           </div>
         </aside>
       </div>
     </section>
   </div>
 </body>
+<script src="script.js"></script>
 </html>
