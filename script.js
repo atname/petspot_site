@@ -1,9 +1,21 @@
+// =================== CONFIG ===================
+import {loadServiceCategories, loadUserServices, loadCities, loadVetClinics} from "./firebase-init.js";
+
+// Если ключ положишь глобально: window.GOOGLE_MAPS_API_KEY = "xxx"
+const GOOGLE_MAPS_API_KEY = "AIzaSyCPJD9pGSjZeDx11wFDUj5jB6jMX1wdhHY"; // <-- вставь свой ключ (или задай window.GOOGLE_MAPS_API_KEY)
+
+// =================== UI QUERIES ===================
 const langBtn = document.querySelector('.lang-btn');
 const dropdown = document.querySelector('.lang-dropdown');
 const langOptions = document.querySelectorAll('.dropdown-menu button');
 const texts = document.querySelectorAll('[data-i18n]');
-const slidesContainer = document.getElementById('slides');
+const pageContent = document.getElementById("page-content");
+const navLinks = document.querySelectorAll(".header-nav a");
 
+// сохраняем домашнюю разметку (слайдер внутри неё)
+const homeContent = pageContent.innerHTML;
+
+// ================ TRANSLATIONS ====================
 const translations = {
     ru: {
         hero_title: 'PetSpot — незаменимый помощник для вас и вашего питомца',
@@ -15,7 +27,7 @@ const translations = {
         phone_services: 'Услуги рядом',
         phone_vet: 'Ветклиники',
         meta_link: 'Политика конфиденциальности',
-        footer_about: 'Онлайн-паспорт питомца и сервисы рядом',
+        footer_about: 'Онлайн-паспорт питомца, услуги и ветеринарные клиники в вашем городе.',
         footer_home: 'Главная',
         footer_features: 'Функции',
         footer_services: 'Услуги',
@@ -25,7 +37,9 @@ const translations = {
         footer_terms: 'Условия использования',
         footer_contacts: 'Контакты',
         footer_lang: 'Язык',
-        footer_rights: 'Все права защищены.'
+        nav_home: "Главная",
+        nav_services: "Услуги",
+        nav_clinics: "Клиники",
     },
     ge: {
         hero_title: 'PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის',
@@ -37,7 +51,7 @@ const translations = {
         phone_services: 'სერვისები',
         phone_vet: 'ვეტკლინიკები',
         meta_link: 'კონფიდენციალურობის პოლიტიკა',
-        footer_about: 'ონლაინ პასპორტი და სერვისები ახლოს',
+        footer_about: 'ონლაინ პასპორტი, სერვისები და ვეტერინარული კლინიკები თქვენს ქალაქში.',
         footer_nav: 'ნავიგაცია',
         footer_home: 'მთავარი',
         footer_features: 'ფუნქციები',
@@ -48,7 +62,9 @@ const translations = {
         footer_terms: 'გამოყენების პირობები',
         footer_contacts: 'კონტაქტები',
         footer_lang: 'ენა',
-        footer_rights: 'ყველა უფლება დაცულია.'
+        nav_home: "მთავარი",
+        nav_services: "სერვისები",
+        nav_clinics: "კლინიკები"
     },
     en: {
         hero_title: 'PetSpot — an essential helper for you and your pet',
@@ -60,102 +76,645 @@ const translations = {
         phone_services: 'Services Nearby',
         phone_vet: 'Vet Clinics',
         meta_link: 'Privacy Policy',
-        footer_about: 'Pet passport and services nearby',
+        footer_about: 'Online pet passport, services and veterinary clinics in your city.',
         footer_nav: 'Navigation',
         footer_home: 'Home',
         footer_features: 'Features',
         footer_services: 'Services',
         footer_download: 'Download',
-        footer_docs: 'Documents',
         footer_privacy: 'Privacy Policy',
         footer_terms: 'Terms of Use',
         footer_contacts: 'Contacts',
         footer_lang: 'Language',
-        footer_rights: 'All rights reserved.'
+        nav_home: "Home",
+        nav_services: "Services",
+        nav_clinics: "Clinics"
     }
 };
 
-// Слайды для каждого языка
+// =================== SLIDES =======================
 const slides = {
     ru: ["images/ru/1.png", "images/ru/2.png", "images/ru/3.png", "images/ru/4.png"],
     ge: ["images/ge/1.png", "images/ge/2.png", "images/ge/3.png", "images/ge/4.png"],
     en: ["images/en/1.png", "images/en/2.png", "images/en/3.png", "images/en/4.png"],
 };
 
-let currentLang = "ru";
+// текущее состояние
+let currentLang = localStorage.getItem("lang") || "ru";
 let currentSlide = 0;
 let sliderInterval;
+let currentPage = localStorage.getItem("page") || "home";
+
+// помощник — каждый раз ищем контейнер слайдов (на других страницах его нет)
+function getSlidesContainer() {
+    return document.getElementById('slides');
+}
 
 function renderSlides() {
-    slidesContainer.innerHTML = "";
+    const container = getSlidesContainer();
+    if (!container) return; // не на главной — выходим
+    container.innerHTML = "";
     slides[currentLang].forEach(src => {
         const img = document.createElement("img");
         img.src = src;
-        slidesContainer.appendChild(img);
+        container.appendChild(img);
     });
     currentSlide = 0;
     updateSlide();
 }
 
 function updateSlide() {
+    const container = getSlidesContainer();
+    if (!container) return;
     const offset = -currentSlide * 100;
-    slidesContainer.style.transform = `translateX(${offset}%)`;
+    container.style.transform = `translateX(${offset}%)`;
 }
 
 function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides[currentLang].length;
+    const arr = slides[currentLang];
+    if (!arr || !arr.length) return;
+    currentSlide = (currentSlide + 1) % arr.length;
     updateSlide();
 }
 
 function restartSlider() {
     clearInterval(sliderInterval);
+    if (!getSlidesContainer()) return; // нет слайдера на текущей странице
     sliderInterval = setInterval(nextSlide, 3000);
 }
 
+// ================= LANGUAGE =======================
 function setLanguage(lang) {
+    // Подменяем тексты с data-i18n (шапка/подвал)
     texts.forEach(el => {
         const key = el.dataset.i18n;
         if (translations[lang] && translations[lang][key]) {
             el.textContent = translations[lang][key];
         }
     });
+
     document.documentElement.setAttribute('lang', lang);
     localStorage.setItem('lang', lang);
-
     currentLang = lang;
-    renderSlides();
-    restartSlider();
+
+    // если на главной — перерисуем слайдер
+    if (currentPage === "home") {
+        renderSlides();
+        restartSlider();
+    }
+
+    // если мы на внутренней — перерисовать текущую
+    if (currentPage === "services") {
+        renderServicesPage();
+    } else if (currentPage === "clinics") {
+        renderClinicsPage();
+    }
 }
 
-// dropdown
-langBtn.addEventListener('click', () => {
-    dropdown.classList.toggle('open');
-});
-
-langOptions.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const lang = btn.dataset.lang;
-        setLanguage(lang);
-
-        langBtn.querySelector('img').src = btn.querySelector('img').src;
-        langBtn.querySelector('span').textContent = btn.querySelector('span').textContent;
-
-        dropdown.classList.remove('open');
+// ================= DROPDOWN =======================
+if (langBtn) {
+    langBtn.addEventListener('click', () => {
+        dropdown.classList.toggle('open');
     });
-});
+    langOptions.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            setLanguage(lang);
+            langBtn.querySelector('img').src = btn.querySelector('img').src;
+            langBtn.querySelector('span').textContent = btn.querySelector('span').textContent;
+            dropdown.classList.remove('open');
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !langBtn.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
+}
 
-document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && !langBtn.contains(e.target)) {
-        dropdown.classList.remove('open');
-    }
-});
-
-// init
-const savedLang = localStorage.getItem('lang') || 'ru';
-setLanguage(savedLang);
-const initialBtn = document.querySelector(`.dropdown-menu button[data-lang="${savedLang}"]`);
+// ================= INIT ===========================
+setLanguage(currentLang);
+const initialBtn = document.querySelector(`.dropdown-menu button[data-lang="${currentLang}"]`);
 if (initialBtn) {
     langBtn.querySelector('img').src = initialBtn.querySelector('img').src;
     langBtn.querySelector('span').textContent = initialBtn.querySelector('span').textContent;
 }
-restartSlider();
+
+// после расстановки языка нужно показать сохраненную страницу
+showPage(currentPage);
+
+// подсветим активный пункт меню
+navLinks.forEach(l => {
+    if (l.dataset.page === currentPage) l.classList.add("active");
+    else l.classList.remove("active");
+});
+
+// ================= PAGE SWITCH ====================
+function showPage(page) {
+    currentPage = page;
+    localStorage.setItem("page", page);
+
+    pageContent.classList.add("fade-out");
+    setTimeout(async () => {
+        if (page === "home") {
+            pageContent.innerHTML = homeContent;
+            // важно: после вставки домашней разметки снова найти слайдер и запустить
+            renderSlides();
+            restartSlider();
+        } else if (page === "services") {
+            await renderServicesPage();
+        } else if (page === "clinics") {
+            await renderClinicsPage();
+        }
+        pageContent.classList.remove("fade-out");
+        pageContent.classList.add("fade-in");
+        setTimeout(() => pageContent.classList.remove("fade-in"), 300);
+    }, 150);
+}
+
+navLinks.forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const page = link.dataset.page;
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+        showPage(page);
+    });
+});
+
+// ================ DATA LOADERS =====================
+async function fetchServiceCategories() {
+    return await loadServiceCategories();
+}
+
+async function fetchUsersServices() {
+    return await loadUserServices();
+}
+
+async function fetchCities() {
+    return await loadCities();
+}
+
+// ================= SERVICES PAGE ==================
+// ================= SERVICES PAGE ==================
+async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
+    const categories = await fetchServiceCategories();
+    const cities = await fetchCities();
+    const services = await fetchUsersServices();
+
+    // фильтр по городу
+    let filteredServices = (selectedCityId === "all")
+        ? services
+        : services.filter(s => String(s.region) === String(selectedCityId));
+
+    // фильтр по типам
+    if (selectedTypes.length > 0) {
+        filteredServices = filteredServices.filter(s => selectedTypes.includes(String(s.type)));
+    }
+
+    pageContent.innerHTML = `
+    <div class="services-layout">
+      <div class="filter-card">
+        <h3>Фильтры</h3>
+        <div class="filter-group">
+          <label for="city">Город</label>
+          <select id="city">
+            <option value="all">${currentLang === "ru" ? "Все города" : currentLang === "ge" ? "ყველა ქალაქი" : "All cities"}</option>
+            ${cities.map(c => {
+        const title = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+        return `<option value="${c.id}" ${c.id == selectedCityId ? "selected" : ""}>${title}</option>`;
+    }).join("")}
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Услуги</label>
+          <div class="filter-options">
+            ${categories.map(c => {
+        const title = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+        return `<label>
+                        <input type="checkbox" value="${c.id}" ${selectedTypes.includes(String(c.id)) ? "checked" : ""}>
+                        ${title}
+                      </label>`;
+    }).join("")}
+          </div>
+        </div>
+
+        <button class="apply-btn">Применить</button>
+      </div>
+
+      <div class="services-main">
+        <div class="cards-grid">
+          ${filteredServices.map((s,idx) => {
+        const category = categories.find(c => String(c.id) === String(s.type));
+        const serviceName = category
+            ? (currentLang === "ru" ? category.ruName : currentLang === "ge" ? category.geName : category.enName)
+            : (s.role || s.type || "");
+        return `<div class="service-card" data-idx="${idx}">
+                      <img src="${s.photoUrl}" alt="${s.name}">
+                      <h3>${s.name || ""}</h3>
+                      <p>${serviceName}</p>
+                    </div>`;
+    }).join("")}
+        </div>
+      </div>
+    </div>`;
+
+    // события фильтров
+    document.getElementById("city").addEventListener("change", e => {
+        renderServicesPage(e.target.value, selectedTypes);
+    });
+
+    document.querySelector(".apply-btn").addEventListener("click", () => {
+        const checked = [...document.querySelectorAll(".filter-options input:checked")].map(cb => cb.value);
+        const cityValue = document.getElementById("city").value;
+        renderServicesPage(cityValue, checked);
+    });
+
+    // клики по карточкам -> модалка
+    document.querySelectorAll(".service-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const idx = Number(card.dataset.idx);
+            const data = filteredServices[idx];
+            if (data) openServiceModal(data, cities, categories);
+        });
+    });
+}
+
+// ============== GOOGLE MAPS LOADER ===============
+// ============== GOOGLE MAPS LOADER ===============
+function ensureGoogleMaps() {
+    if (window.google && window.google.maps) return Promise.resolve(window.google.maps);
+    if (window._gmapsPromise) return window._gmapsPromise;
+
+    const key = window.GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY;
+    const src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}`;
+
+    window._gmapsPromise = new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = src;
+        s.async = true;
+        s.defer = true;
+        s.onload = () => resolve(window.google.maps);
+        s.onerror = () => reject(new Error("Google Maps failed to load"));
+        document.head.appendChild(s);
+    });
+    return window._gmapsPromise;
+}
+
+
+
+
+// ================= CLINICS PAGE ===================
+
+// Достаём координаты города из разных возможных полей
+// Достаём координаты города из разных возможных полей Firestore
+function getCityCenter(city) {
+    const lat = Number(city?.Lang ?? city?.lang ?? city?.lat);
+    const lng = Number(city?.Long ?? city?.long ?? city?.lng);
+    return {
+        lat: Number.isFinite(lat) ? lat : 41.7151,   // fallback: Тбилиси
+        lng: Number.isFinite(lng) ? lng : 44.8271,
+    };
+}
+
+
+async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
+    const cities = await fetchCities();
+    const clinics = await loadVetClinics();
+
+    // Находим Тбилиси по любому названию
+    const tbilisi = cities.find(c => {
+        const n = [c?.ruName, c?.enName, c?.geName].map(v => (v || "").trim().toLowerCase());
+        return n.includes("тбилиси") || n.includes("tbilisi") || n.includes("თბილისი");
+    });
+
+    const defaultCityId = tbilisi ? String(tbilisi.id) : (cities[0] ? String(cities[0].id) : "");
+    const currentCityId = (selectedCityId && selectedCityId !== "all") ? String(selectedCityId) : defaultCityId;
+
+    // Фильтруем клиники по выбранному городу
+    const filteredClinics = clinics.filter(c => String(c.cityId) === currentCityId);
+
+    // Options БЕЗ "Все города"
+    const optionsHtml = cities.map(c => {
+        const title = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+        return `<option value="${c.id}" ${String(c.id) === currentCityId ? "selected" : ""}>${title}</option>`;
+    }).join("");
+
+    // Рендер страницы
+    pageContent.innerHTML = `
+    <div class="services-layout">
+      <div class="filter-card">
+        <h3>Фильтры</h3>
+        <div class="filter-group">
+          <label for="clinic-city">Город</label>
+          <select id="clinic-city">${optionsHtml}</select>
+        </div>
+        <button class="apply-btn">Применить</button>
+      </div>
+
+      <div class="services-main">
+        <h2>${currentLang === "ru" ? "Клиники" : currentLang === "ge" ? "კლინიკები" : "Clinics"}</h2>
+
+        <div class="view-switch">
+          <button class="list-view ${viewMode === "list" ? "active" : ""}">Списком</button>
+          <button class="map-view ${viewMode === "map" ? "active" : ""}">На карте</button>
+        </div>
+
+        <div class="cards-grid ${viewMode === "list" ? "two-columns" : ""}" id="clinics-container">
+          ${
+        viewMode === "list"
+            ? filteredClinics.map(c => {
+                const title   = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+                const cityObj = cities.find(ct => String(ct.id) === String(c.cityId));
+                const cityName= cityObj ? (currentLang === "ru" ? cityObj.ruName : currentLang === "ge" ? cityObj.geName : cityObj.enName) : "";
+                const address = currentLang === "ru" ? c.ruAddress : currentLang === "ge" ? c.geAddress : c.enAddress;
+
+                const st = getClinicStatus(c);
+                const statusLabel = st[currentLang] || st.ru;
+
+                return `
+                    <div class="service-card clinic-card">
+                      <img src="${c.photoUrl}" alt="${title}">
+                      <div class="clinic-info">
+                        <h3>${title}</h3>
+                        <p>${cityName}</p>
+                        <p>${address || ""}</p>
+                        <p style="color:${st.color};font-weight:600;margin-top:6px;">${statusLabel}</p>
+                      </div>
+                    </div>
+                  `;
+            }).join("")
+            : `<div class="map-container"><div id="map"></div></div>`
+    }
+        </div>
+      </div>
+    </div>
+  `;
+
+    // Обработчики
+    document.querySelector(".list-view").addEventListener("click", () => {
+        renderClinicsPage(currentCityId, "list");
+    });
+    document.querySelector(".map-view").addEventListener("click", () => {
+        renderClinicsPage(currentCityId, "map");
+    });
+    document.getElementById("clinic-city").addEventListener("change", (e) => {
+        renderClinicsPage(e.target.value, viewMode);
+    });
+    document.querySelector(".apply-btn").addEventListener("click", () => {
+        const val = document.getElementById("clinic-city").value;
+        renderClinicsPage(val, viewMode);
+    });
+
+    // Карта
+    if (viewMode === "map") {
+        try {
+            await ensureGoogleMaps();
+
+            const cityObj = cities.find(c => String(c.id) === currentCityId);
+            const center = getCityCenter(cityObj); // Lang/Long -> центр
+
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center,
+                zoom: 12,
+            });
+
+            const withCoords = filteredClinics.filter(c => Number.isFinite(c.lat) && Number.isFinite(c.long));
+            const icons = await Promise.all(withCoords.map(c => createCircleIcon(c.photoUrl, 36)));
+
+            const infoWindow = new google.maps.InfoWindow();
+            withCoords.forEach((c, i) => {
+                const title   = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+                const address = currentLang === "ru" ? c.ruAddress : currentLang === "ge" ? c.geAddress : c.enAddress;
+
+                const st = getClinicStatus(c);
+                const statusLabel = st[currentLang] || st.ru;
+
+                const marker = new google.maps.Marker({
+                    position: { lat: c.lat, lng: c.long },
+                    map,
+                    title,
+                    icon: icons[i],
+                });
+
+                marker.addListener("click", () => {
+                    infoWindow.setContent(`
+            <div style="max-width:220px;">
+              <img src="${c.photoUrl}" style="width:100%;border-radius:8px;margin-bottom:8px;">
+              <h3 style="margin:0 0 6px;">${title}</h3>
+              <p style="margin:0 0 4px;">${address || ""}</p>
+              <p style="margin:0;">
+                <b>${currentLang === "ru" ? "Статус" : currentLang === "ge" ? "სტატუსი" : "Status"}:</b>
+                <span style="color:${st.color};font-weight:600;">${statusLabel}</span>
+              </p>
+            </div>
+          `);
+                    infoWindow.open(map, marker);
+                });
+            });
+
+        } catch (e) {
+            const el = document.getElementById("map");
+            if (el) {
+                el.innerHTML = `
+          <div style="padding:16px;background:#fff;border-radius:12px;">
+            Не удалось загрузить карту. Проверь API-ключ Google Maps.
+          </div>`;
+            }
+        }
+    }
+}
+
+// Кэш готовых иконок, чтобы не перерисовывать одно и то же
+const iconCache = new Map();
+
+function createCircleIcon(url, size = 36) {
+    if (iconCache.has(url)) return iconCache.get(url);
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = size;
+    canvas.height = size;
+
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // чтобы не падал canvas на внешних картинках
+    img.src = url;
+
+    const p = new Promise((resolve) => {
+        img.onload = () => {
+            ctx.clearRect(0, 0, size, size);
+            // круглая маска
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
+            // отрисовали изображение внутрь круга
+            ctx.drawImage(img, 0, 0, size, size);
+
+            resolve({
+                url: canvas.toDataURL(),
+                scaledSize: new google.maps.Size(size, size),
+            });
+        };
+        img.onerror = () => {
+            // фолбек — просто оригинал нужного размера
+            resolve({
+                url,
+                scaledSize: new google.maps.Size(size, size),
+            });
+        };
+    });
+
+    iconCache.set(url, p);
+    return p;
+}
+
+
+// ====== OPEN/CLOSED helpers ======
+const DAYS = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+
+function toMinutes(t) {
+    if (!t) return null;
+    const [h, m = 0] = String(t).split(":").map(Number);
+    return Number.isFinite(h) ? h * 60 + m : null;
+}
+
+/** c.schedule = [{day:'monday', open:'09:00', close:'18:00'}, ...] */
+function getClinicStatus(c, now = new Date()) {
+    if (!c || !Array.isArray(c.schedule) || !c.schedule.length) {
+        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+    }
+    const today = DAYS[now.getDay()];
+    const s = c.schedule.find(x => x.day === today);
+    if (!s || !s.open || !s.close) {
+        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+    }
+
+    const open = toMinutes(s.open);
+    const close = toMinutes(s.close);
+    if (open === null || close === null) {
+        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+    }
+
+    if (open === 0 && (close === 1439 || close === 1440)) {
+        return { ru: "Круглосуточно", ge: "24/7", en: "24/7", color: "green" };
+    }
+
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const isOpen = close > open ? (nowMin >= open && nowMin < close)
+        : (nowMin >= open || nowMin < close);
+
+    return isOpen
+        ? { ru: "Открыто", ge: "გახსნილია", en: "Open", color: "green" }
+        : { ru: "Закрыто", ge: "დახურული", en: "Closed", color: "red" };
+}
+
+// === Helpers for modal / labels ===
+const LABELS = {
+    region: {ru:"Регион", ge:"რეგიონი", en:"Region"},
+    about:  {ru:"О себе", ge:"შესახებ", en:"About"},
+    schedule:{ru:"График работы", ge:"გრაფიკი", en:"Schedule"},
+    languages:{ru:"Общается на", ge:"ენები", en:"Languages"},
+    options:{ru:"Опции", ge:"ოპციები", en:"Options"},
+    price:{ru:"Цена", ge:"ფასი", en:"Price"},
+};
+
+const AVAIL_MAP = {
+    "1": {ru:"Каждый день", ge:"ყოველდღე", en:"Every day"},
+    "2": {ru:"Будни", ge:"სამუშაო დღეები", en:"Weekdays"},
+    "3": {ru:"Выходные", ge:"დასვენების დღეები", en:"Weekends"}
+};
+
+function getCityNameById(cities, id){
+    const c = cities.find(x => String(x.id) === String(id));
+    if(!c) return "";
+    return currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+}
+function getServiceTitle(categories, s){
+    const cat = categories.find(c => String(c.id) === String(s.type));
+    if (cat) return currentLang === "ru" ? cat.ruName : currentLang === "ge" ? cat.geName : cat.enName;
+    return s.role || s.type || "";
+}
+function humanAvailability(s){
+    const key = String(s?.availability ?? "");
+    const v = AVAIL_MAP[key];
+    if (!v) return "";
+    return v[currentLang] || v.ru;
+}
+function normalizeLanguages(l){
+    if(!l) return "";
+    if(Array.isArray(l)) return l.join(", ");
+    return String(l);
+}
+function normalizeOptions(o){
+    if(!o) return "";
+    if(Array.isArray(o)) return o.join(", ");
+    if(typeof o === "object") return Object.values(o).join(", ");
+    return String(o);
+}
+function extractPrice(s){
+    const guess = s.price ?? s.cost ?? s.pricePerDay ?? s.pricePerHour;
+    if(guess) return String(guess);
+    // попытка вытащить из текста (напр. "Один день 10₾")
+    const src = normalizeOptions(s.options);
+    const m = src.match(/(\d+(?:[.,]\d+)?)\s*([₾₽$€])?/);
+    return m ? (m[1] + (m[2] || " ₾")) : "";
+}
+
+// === Единственный контейнер модалки ===
+let modalHost = null;
+function ensureModalHost(){
+    if (modalHost) return modalHost;
+    modalHost = document.createElement("div");
+    document.body.appendChild(modalHost);
+    return modalHost;
+}
+
+function openServiceModal(service, cities, categories){
+    const modalRoot = ensureModalHost();
+    const title = service.name || "";
+    const badge = getServiceTitle(categories, service);
+    const cityName = getCityNameById(cities, service.region);
+    const about = service.about || "";
+    const schedule = humanAvailability(service);
+    const langs = normalizeLanguages(service.languages);
+    const opts = normalizeOptions(service.options);
+    const price = extractPrice(service);
+
+    const labels = LABELS;
+
+    const html = `
+  <div class="ps-modal-backdrop" id="ps-modal-backdrop">
+    <div class="ps-modal" role="dialog" aria-modal="true">
+      <button class="ps-close" id="ps-close" aria-label="Close">×</button>
+      <header>
+        <img class="ps-avatar" src="${service.photoUrl || 'images/placeholder.png'}" alt="">
+        <div>
+          <h3>${title}</h3>
+          ${badge ? `<span class="ps-badge">${badge}</span>` : ""}
+        </div>
+      </header>
+      <div class="ps-body">
+        ${cityName ? `<div class="ps-row"><span>${labels.region[currentLang]||labels.region.ru}</span><div>${cityName}</div></div>`:""}
+        ${about ? `<div class="ps-row"><span>${labels.about[currentLang]||labels.about.ru}</span><div>${about}</div></div>`:""}
+        ${schedule ? `<div class="ps-row"><span>${labels.schedule[currentLang]||labels.schedule.ru}</span><div>${schedule}</div></div>`:""}
+        ${langs ? `<div class="ps-row"><span>${labels.languages[currentLang]||labels.languages.ru}</span><div>${langs}</div></div>`:""}
+        ${opts ? `<div class="ps-row"><span>${labels.options[currentLang]||labels.options.ru}</span><div>${opts}</div></div>`:""}
+        ${price ? `<div class="ps-row"><span>${labels.price[currentLang]||labels.price.ru}</span><div>${price}</div></div>`:""}
+      </div>
+    </div>
+  </div>`;
+
+    modalRoot.innerHTML = html;
+
+    const close = () => { modalRoot.innerHTML = ""; };
+    modalRoot.querySelector("#ps-close").addEventListener("click", close);
+    modalRoot.querySelector("#ps-modal-backdrop").addEventListener("click", (e)=>{
+        if (e.target.id === "ps-modal-backdrop") close();
+    });
+    document.addEventListener("keydown", function onEsc(ev){
+        if(ev.key === "Escape"){ close(); document.removeEventListener("keydown", onEsc); }
+    });
+}
+
