@@ -467,6 +467,8 @@ p {
 /* Правая часть (контент и заголовок "Услуги") */
 .services-main {
     flex: 1; /* занимает оставшееся место */
+    display: flex;
+    flex-direction: column;
 }
 
 .cards-grid {
@@ -475,11 +477,17 @@ p {
     gap: 20px;
 }
 
+.services-main .cards-grid {
+    flex: 1;
+}
+
 .cards-grid.empty {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 200px;
+    min-height: 240px;
+    width: 100%;
+    flex: 1;
 }
 
 .service-card {
