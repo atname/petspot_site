@@ -246,6 +246,8 @@ function showPage(page) {
             await renderClinicsPage();
         }
 
+        pageContent.classList.toggle("page-stack", page !== "home");
+
         applyTranslations();
 
         if (page === "home") {
