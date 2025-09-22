@@ -458,6 +458,24 @@ p {
     align-items: flex-start; /* выравнивание по верхнему краю */
 }
 
+.services-warning {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(220, 53, 69, 0.12);
+    border: 1px solid rgba(220, 53, 69, 0.35);
+    color: #b02a37;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.services-warning__icon {
+    font-size: 24px;
+}
+
 /* Левая колонка с фильтром */
 .filter-card {
     background: #FFF8F0; /* светлее */

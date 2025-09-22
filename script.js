@@ -39,6 +39,7 @@ const translations = {
         nav_home: "Главная",
         nav_services: "Услуги",
         nav_clinics: "Клиники",
+        services_warning: 'В данный момент записаться на услугу можно только через приложение',
     },
     ge: {
         hero_title: 'PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის',
@@ -63,7 +64,8 @@ const translations = {
         footer_lang: 'ენა',
         nav_home: "მთავარი",
         nav_services: "სერვისები",
-        nav_clinics: "კლინიკები"
+        nav_clinics: "კლინიკები",
+        services_warning: 'ამ ეტაპზე მომსახურებაზე ჩაწერა შესაძლებელია მხოლოდ აპლიკაციით',
     },
     en: {
         hero_title: 'PetSpot — an essential helper for you and your pet',
@@ -87,7 +89,8 @@ const translations = {
         footer_lang: 'Language',
         nav_home: "Home",
         nav_services: "Services",
-        nav_clinics: "Clinics"
+        nav_clinics: "Clinics",
+        services_warning: 'At the moment, you can book a service only via the mobile app',
     }
 };
 
@@ -277,6 +280,12 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
         en: "Nothing found ☹️",
     };
 
+    const warningMessages = {
+        ru: "В данный момент записаться на услугу можно только через приложение",
+        ge: "ამ ეტაპზე მომსახურებაზე ჩაწერა შესაძლებელია მხოლოდ აპლიკაციით",
+        en: "At the moment, you can book a service only via the mobile app",
+    };
+
     // фильтр по городу
     let filteredServices = (selectedCityId === "all")
         ? services
@@ -288,6 +297,10 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
     }
 
     pageContent.innerHTML = `
+    <div class="services-warning" role="alert">
+      <span class="services-warning__icon" aria-hidden="true">⚠️</span>
+      <span data-i18n="services_warning">${warningMessages[currentLang] || warningMessages.ru}</span>
+    </div>
     <div class="services-layout">
       <div class="filter-card">
         <h3>Фильтры</h3>
