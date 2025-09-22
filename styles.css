@@ -452,6 +452,23 @@ p {
 }
 
 /* Общий контейнер для фильтра и контента */
+.services-warning {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(231, 76, 60, 0.12);
+    color: #a5312a;
+    font-weight: 600;
+}
+
+.services-warning__emoji {
+    font-size: 20px;
+    line-height: 1;
+}
+
 .services-layout {
     display: flex;
     gap: 32px; /* расстояние между фильтром и заголовком */
