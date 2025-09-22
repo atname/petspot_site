@@ -475,6 +475,13 @@ p {
     gap: 20px;
 }
 
+.cards-grid.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
 .service-card {
     background: #ffffff;
     border-radius: 12px;
@@ -502,6 +509,13 @@ p {
     font-size: 14px;
     color: #666;
     margin: 0; /* убираем глобальный огромный отступ */
+}
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    width: 100%;
 }
 
 .cards-grid.one-column {

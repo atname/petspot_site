@@ -271,6 +271,12 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
     const cities = await fetchCities();
     const services = await fetchUsersServices();
 
+    const noResultsMessages = {
+        ru: "Ничего не найдено ☹️",
+        ge: "ვერაფერი მოიძებნა ☹️",
+        en: "Nothing found ☹️",
+    };
+
     // фильтр по городу
     let filteredServices = (selectedCityId === "all")
         ? services
@@ -313,8 +319,8 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
       </div>
 
       <div class="services-main">
-        <div class="cards-grid">
-          ${filteredServices.map((s,idx) => {
+        <div class="cards-grid${filteredServices.length ? "" : " empty"}">
+          ${filteredServices.length ? filteredServices.map((s,idx) => {
         const category = categories.find(c => String(c.id) === String(s.type));
         const serviceName = category
             ? (currentLang === "ru" ? category.ruName : currentLang === "ge" ? category.geName : category.enName)
@@ -324,7 +330,7 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
                       <h3>${s.name || ""}</h3>
                       <p>${serviceName}</p>
                     </div>`;
-    }).join("")}
+    }).join("") : `<div class="no-results">${noResultsMessages[currentLang] || noResultsMessages.ru}</div>`}
         </div>
       </div>
     </div>`;
