@@ -378,9 +378,18 @@ function getCityCenter(city) {
     };
 }
 
+const CLINIC_LABELS = {
+    city:         { ru: "Город",        ge: "ქალაქი",       en: "City" },
+    address:      { ru: "Адрес",        ge: "მისამართი",    en: "Address" },
+    phone:        { ru: "Телефон",      ge: "ტელეფონი",     en: "Phone" },
+    description:  { ru: "Описание",     ge: "აღწერა",       en: "Description" },
+    opening:      { ru: "График работы",ge: "გრაფიკი",      en: "Opening hours" },
+    social:       { ru: "Соцсети",      ge: "სოც.ქსელები",  en: "Social" },
+    status:       { ru: "Статус",       ge: "სტატუსი",      en: "Status" },
+};
 
 async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
-    const cities = await fetchCities();
+    const cities  = await fetchCities();
     const clinics = await loadVetClinics();
 
     // Находим Тбилиси по любому названию
@@ -424,35 +433,34 @@ async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
         <div class="cards-grid ${viewMode === "list" ? "two-columns" : ""}" id="clinics-container">
           ${
         viewMode === "list"
-            ? filteredClinics.map(c => {
-                const title   = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
-                const cityObj = cities.find(ct => String(ct.id) === String(c.cityId));
-                const cityName= cityObj ? (currentLang === "ru" ? cityObj.ruName : currentLang === "ge" ? cityObj.geName : cityObj.enName) : "";
-                const address = currentLang === "ru" ? c.ruAddress : currentLang === "ge" ? c.geAddress : c.enAddress;
+            ? filteredClinics.map((c, idx) => {
+                const title    = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
+                const cityObj  = cities.find(ct => String(ct.id) === String(c.cityId));
+                const cityName = cityObj ? (currentLang === "ru" ? cityObj.ruName : currentLang === "ge" ? cityObj.geName : cityObj.enName) : "";
+                const address  = currentLang === "ru" ? c.ruAddress : currentLang === "ge" ? c.geAddress : c.enAddress;
 
                 const st = getClinicStatus(c);
                 const statusLabel = st[currentLang] || st.ru;
 
                 return `
-                    <div class="service-card clinic-card">
-                      <img src="${c.photoUrl}" alt="${title}">
-                      <div class="clinic-info">
-                        <h3>${title}</h3>
-                        <p>${cityName}</p>
-                        <p>${address || ""}</p>
-                        <p style="color:${st.color};font-weight:600;margin-top:6px;">${statusLabel}</p>
-                      </div>
+                  <div class="service-card clinic-card" data-idx="${idx}">
+                    <img src="${c.photoUrl}" alt="${title}">
+                    <div class="clinic-info">
+                      <h3>${title}</h3>
+                      <p>${cityName}</p>
+                      <p>${address || ""}</p>
+                      <p style="color:${st.color};font-weight:600;margin-top:6px;">${statusLabel}</p>
                     </div>
-                  `;
+                  </div>`;
             }).join("")
             : `<div class="map-container"><div id="map"></div></div>`
     }
         </div>
       </div>
     </div>
-  `;
+    `;
 
-    // Обработчики
+    // Обработчики переключателей/фильтра
     document.querySelector(".list-view").addEventListener("click", () => {
         renderClinicsPage(currentCityId, "list");
     });
@@ -467,13 +475,24 @@ async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
         renderClinicsPage(val, viewMode);
     });
 
+    // Клики по карточкам (показываем модалку с инфой)
+    if (viewMode === "list") {
+        document.querySelectorAll(".clinic-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const idx = Number(card.dataset.idx);
+                const data = filteredClinics[idx];
+                if (data) openClinicModal(data, cities);
+            });
+        });
+    }
+
     // Карта
     if (viewMode === "map") {
         try {
             await ensureGoogleMaps();
 
             const cityObj = cities.find(c => String(c.id) === currentCityId);
-            const center = getCityCenter(cityObj); // Lang/Long -> центр
+            const center = getCityCenter(cityObj);
 
             const map = new google.maps.Map(document.getElementById("map"), {
                 center,
@@ -500,16 +519,16 @@ async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
 
                 marker.addListener("click", () => {
                     infoWindow.setContent(`
-            <div style="max-width:220px;">
-              <img src="${c.photoUrl}" style="width:100%;border-radius:8px;margin-bottom:8px;">
-              <h3 style="margin:0 0 6px;">${title}</h3>
-              <p style="margin:0 0 4px;">${address || ""}</p>
-              <p style="margin:0;">
-                <b>${currentLang === "ru" ? "Статус" : currentLang === "ge" ? "სტატუსი" : "Status"}:</b>
-                <span style="color:${st.color};font-weight:600;">${statusLabel}</span>
-              </p>
-            </div>
-          `);
+                        <div style="max-width:220px;">
+                          <img src="${c.photoUrl}" style="width:100%;border-radius:8px;margin-bottom:8px;">
+                          <h3 style="margin:0 0 6px;">${title}</h3>
+                          <p style="margin:0 0 4px;">${address || ""}</p>
+                          <p style="margin:0;">
+                            <b>${CLINIC_LABELS.status[currentLang]}:</b>
+                            <span style="color:${st.color};font-weight:600;">${statusLabel}</span>
+                          </p>
+                        </div>
+                    `);
                     infoWindow.open(map, marker);
                 });
             });
@@ -518,13 +537,124 @@ async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
             const el = document.getElementById("map");
             if (el) {
                 el.innerHTML = `
-          <div style="padding:16px;background:#fff;border-radius:12px;">
-            Не удалось загрузить карту. Проверь API-ключ Google Maps.
-          </div>`;
+                  <div style="padding:16px;background:#fff;border-radius:12px;">
+                    Не удалось загрузить карту. Проверь API-ключ Google Maps.
+                  </div>`;
             }
         }
     }
 }
+
+function openClinicModal(clinic, cities) {
+    const modalRoot = ensureModalHost();
+
+    // Название/адрес/описание по текущему языку
+    const name = currentLang === "ru" ? clinic.ruName : currentLang === "ge" ? clinic.geName : clinic.enName;
+    const address = currentLang === "ru" ? clinic.ruAddress : currentLang === "ge" ? clinic.geAddress : clinic.enAddress;
+    const description = currentLang === "ru" ? clinic.ruDescription : currentLang === "ge" ? clinic.geDescription : clinic.enDescription;
+
+    const cityName = getCityNameById(cities, clinic.cityId) || "";
+    const st = getClinicStatus(clinic);
+    const statusLabel = st[currentLang] || st.ru;
+
+    const phone = clinic.phone ? String(clinic.phone).trim() : "";
+    const website = clinic.website || clinic.madloba || "";
+    const facebook = clinic.facebook || "";
+    const instagram = clinic.instagram || "";
+
+    const scheduleHtml = renderClinicSchedule(clinic);
+
+    const html = `
+    <div class="ps-modal-backdrop" id="ps-modal-clinic-backdrop">
+      <div class="ps-modal" role="dialog" aria-modal="true">
+        <button class="ps-close" id="ps-close-clinic" aria-label="Close">×</button>
+
+        <header>
+          <img class="ps-avatar" src="${clinic.photoUrl || 'images/placeholder.png'}" alt="">
+          <div>
+            <h3>${name || ""}</h3>
+          </div>
+        </header>
+
+        <div class="ps-body">
+          ${cityName ? `<div class="ps-row"><span>${CLINIC_LABELS.city[currentLang]}</span><div>${cityName}</div></div>` : ""}
+
+          ${address ? `<div class="ps-row"><span>${CLINIC_LABELS.address[currentLang]}</span><div>${address}</div></div>` : ""}
+
+          ${phone ? `<div class="ps-row"><span>${CLINIC_LABELS.phone[currentLang]}</span><div><a href="tel:${phone.replace(/\s+/g,'')}">${phone}</a></div></div>` : ""}
+
+          <div class="ps-row">
+            <span>${CLINIC_LABELS.status[currentLang]}</span>
+            <div style="color:${st.color};font-weight:600;">${statusLabel}</div>
+          </div>
+
+          ${description ? `<div class="ps-row"><span>${CLINIC_LABELS.description[currentLang]}</span><div>${description}</div></div>` : ""}
+
+          ${scheduleHtml ? `<div class="ps-row"><span>${CLINIC_LABELS.opening[currentLang]}</span><div>${scheduleHtml}</div></div>` : ""}
+
+          ${
+        (website || facebook || instagram)
+            ? `<div class="ps-row"><span>${CLINIC_LABELS.social[currentLang]}</span>
+                 <div class="ps-links">
+                   ${website   ? `<a href="${website}" target="_blank" rel="noopener">Website</a>` : ""}
+                   ${facebook  ? `<a href="${facebook}" target="_blank" rel="noopener">Facebook</a>` : ""}
+                   ${instagram ? `<a href="${instagram}" target="_blank" rel="noopener">Instagram</a>` : ""}
+                 </div>
+               </div>`
+            : ""
+    }
+        </div>
+      </div>
+    </div>`;
+
+    modalRoot.innerHTML = html;
+
+    const close = () => { modalRoot.innerHTML = ""; };
+    modalRoot.querySelector("#ps-close-clinic").addEventListener("click", close);
+    modalRoot.querySelector("#ps-modal-clinic-backdrop").addEventListener("click", (e) => {
+        if (e.target.id === "ps-modal-clinic-backdrop") close();
+    });
+    document.addEventListener("keydown", function onEsc(ev){
+        if (ev.key === "Escape") { close(); document.removeEventListener("keydown", onEsc); }
+    });
+}
+
+function renderClinicSchedule(clinic) {
+    if (!clinic || !Array.isArray(clinic.schedule) || !clinic.schedule.length) return "";
+
+    const ORDER = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+    const RU = {
+        monday:"Понедельник", tuesday:"Вторник", wednesday:"Среда",
+        thursday:"Четверг", friday:"Пятница", saturday:"Суббота", sunday:"Воскресенье"
+    };
+    const GE = {
+        monday:"ორშაბათი", tuesday:"სამშაბათი", wednesday:"ოთხშაბათი",
+        thursday:"ხუთშაბათი", friday:"პარასკევი", saturday:"შაბათი", sunday:"კვირა"
+    };
+    const EN = {
+        monday:"Monday", tuesday:"Tuesday", wednesday:"Wednesday",
+        thursday:"Thursday", friday:"Friday", saturday:"Saturday", sunday:"Sunday"
+    };
+    const titleByLang = currentLang === "ru" ? RU : currentLang === "ge" ? GE : EN;
+
+    const map = new Map();
+    clinic.schedule.forEach(s => {
+        // ожидается {day:'monday', open:'10:00', close:'18:00'}
+        if (s && s.day) map.set(String(s.day).toLowerCase(), s);
+    });
+
+    const rows = ORDER.map(d => {
+        const s = map.get(d);
+        const val = (s && s.open && s.close) ? `${s.open} - ${s.close}` : "—";
+        return `<div style="display:flex;justify-content:space-between;gap:12px;">
+                  <span>${titleByLang[d]}</span>
+                  <span>${val}</span>
+                </div>`;
+    }).join("");
+
+    return `<div class="ps-schedule">${rows}</div>`;
+}
+
 
 // Кэш готовых иконок, чтобы не перерисовывать одно и то же
 const iconCache = new Map();
