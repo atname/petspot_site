@@ -39,6 +39,11 @@ const translations = {
         nav_home: "Главная",
         nav_services: "Услуги",
         nav_clinics: "Клиники",
+        services_filters_title: "Фильтры",
+        services_filters_city: "Город",
+        services_filters_services: "Услуги",
+        services_filters_apply: "Применить",
+        services_filters_all_cities: "Все города",
     },
     ge: {
         hero_title: 'PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის',
@@ -63,7 +68,12 @@ const translations = {
         footer_lang: 'ენა',
         nav_home: "მთავარი",
         nav_services: "სერვისები",
-        nav_clinics: "კლინიკები"
+        nav_clinics: "კლინიკები",
+        services_filters_title: "ფილტრები",
+        services_filters_city: "ქალაქი",
+        services_filters_services: "სერვისები",
+        services_filters_apply: "გამოყენება",
+        services_filters_all_cities: "ყველა ქალაქი",
     },
     en: {
         hero_title: 'PetSpot — an essential helper for you and your pet',
@@ -87,7 +97,12 @@ const translations = {
         footer_lang: 'Language',
         nav_home: "Home",
         nav_services: "Services",
-        nav_clinics: "Clinics"
+        nav_clinics: "Clinics",
+        services_filters_title: "Filters",
+        services_filters_city: "City",
+        services_filters_services: "Services",
+        services_filters_apply: "Apply",
+        services_filters_all_cities: "All cities",
     }
 };
 
@@ -271,6 +286,7 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
     const cities = await fetchCities();
     const services = await fetchUsersServices();
 
+    const t = translations[currentLang] || translations.ru;
     const noResultsMessages = {
         ru: "Ничего не найдено ☹️",
         ge: "ვერაფერი მოიძებნა ☹️",
@@ -290,11 +306,11 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
     pageContent.innerHTML = `
     <div class="services-layout">
       <div class="filter-card">
-        <h3>Фильтры</h3>
+        <h3>${t.services_filters_title}</h3>
         <div class="filter-group">
-          <label for="city">Город</label>
+          <label for="city">${t.services_filters_city}</label>
           <select id="city">
-            <option value="all">${currentLang === "ru" ? "Все города" : currentLang === "ge" ? "ყველა ქალაქი" : "All cities"}</option>
+            <option value="all">${t.services_filters_all_cities}</option>
             ${cities.map(c => {
         const title = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
         return `<option value="${c.id}" ${c.id == selectedCityId ? "selected" : ""}>${title}</option>`;
@@ -303,7 +319,7 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
         </div>
 
         <div class="filter-group">
-          <label>Услуги</label>
+          <label>${t.services_filters_services}</label>
           <div class="filter-options">
             ${categories.map(c => {
         const title = currentLang === "ru" ? c.ruName : currentLang === "ge" ? c.geName : c.enName;
@@ -315,7 +331,7 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
           </div>
         </div>
 
-        <button class="apply-btn">Применить</button>
+        <button class="apply-btn">${t.services_filters_apply}</button>
       </div>
 
       <div class="services-main">
