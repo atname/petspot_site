@@ -729,18 +729,18 @@ function toMinutes(t) {
 /** c.schedule = [{day:'monday', open:'09:00', close:'18:00'}, ...] */
 function getClinicStatus(c, now = new Date()) {
     if (!c || !Array.isArray(c.schedule) || !c.schedule.length) {
-        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+        return { ru: "Закрыто", ge: "დახურული", en: "Closed", color: "red" };
     }
     const today = DAYS[now.getDay()];
     const s = c.schedule.find(x => x.day === today);
     if (!s || !s.open || !s.close) {
-        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+        return { ru: "Закрыто", ge: "დახურული", en: "Closed", color: "red" };
     }
 
     const open = toMinutes(s.open);
     const close = toMinutes(s.close);
     if (open === null || close === null) {
-        return { ru: "Неизвестно", ge: "უცნობია", en: "Unknown", color: "#666" };
+        return { ru: "Закрыто", ge: "დახურული", en: "Closed", color: "red" };
     }
 
     if (open === 0 && (close === 1439 || close === 1440)) {
