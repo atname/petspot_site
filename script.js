@@ -44,6 +44,7 @@ const translations = {
         services_filters_services: "Услуги",
         services_filters_apply: "Применить",
         services_filters_all_cities: "Все города",
+        services_warning: "В данный момент записаться на услугу можно только через приложение",
     },
     ge: {
         hero_title: 'PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის',
@@ -74,6 +75,7 @@ const translations = {
         services_filters_services: "სერვისები",
         services_filters_apply: "გამოყენება",
         services_filters_all_cities: "ყველა ქალაქი",
+        services_warning: "ამჟამად სერვისზე ჩაწერა მხოლოდ აპლიკაციიდან შეიძლება",
     },
     en: {
         hero_title: 'PetSpot — an essential helper for you and your pet',
@@ -103,6 +105,7 @@ const translations = {
         services_filters_services: "Services",
         services_filters_apply: "Apply",
         services_filters_all_cities: "All cities",
+        services_warning: "At the moment, you can book a service only through the app",
     }
 };
 
@@ -304,6 +307,10 @@ async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
     }
 
     pageContent.innerHTML = `
+    <div class="services-warning">
+      <span class="services-warning__emoji">⚠️</span>
+      <span data-i18n="services_warning">${t.services_warning}</span>
+    </div>
     <div class="services-layout">
       <div class="filter-card">
         <h3>${t.services_filters_title}</h3>
