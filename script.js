@@ -8,7 +8,6 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyCPJD9pGSjZeDx11wFDUj5jB6jMX1wdhHY"; // <-- в
 const langBtn = document.querySelector('.lang-btn');
 const dropdown = document.querySelector('.lang-dropdown');
 const langOptions = document.querySelectorAll('.dropdown-menu button');
-const texts = document.querySelectorAll('[data-i18n]');
 const pageContent = document.getElementById("page-content");
 const navLinks = document.querySelectorAll(".header-nav a");
 
@@ -105,6 +104,17 @@ let currentSlide = 0;
 let sliderInterval;
 let currentPage = localStorage.getItem("page") || "home";
 
+function applyTranslations(lang = currentLang) {
+    const translatableElements = document.querySelectorAll('[data-i18n]');
+    translatableElements.forEach(el => {
+        const key = el.dataset.i18n;
+        const translation = translations[lang] && translations[lang][key];
+        if (translation) {
+            el.textContent = translation;
+        }
+    });
+}
+
 // помощник — каждый раз ищем контейнер слайдов (на других страницах его нет)
 function getSlidesContainer() {
     return document.getElementById('slides');
@@ -145,17 +155,11 @@ function restartSlider() {
 
 // ================= LANGUAGE =======================
 function setLanguage(lang) {
-    // Подменяем тексты с data-i18n (шапка/подвал)
-    texts.forEach(el => {
-        const key = el.dataset.i18n;
-        if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
-        }
-    });
-
+    currentLang = lang;
     document.documentElement.setAttribute('lang', lang);
     localStorage.setItem('lang', lang);
-    currentLang = lang;
+
+    applyTranslations(lang);
 
     // если на главной — перерисуем слайдер
     if (currentPage === "home") {
@@ -218,13 +222,18 @@ function showPage(page) {
     setTimeout(async () => {
         if (page === "home") {
             pageContent.innerHTML = homeContent;
-            // важно: после вставки домашней разметки снова найти слайдер и запустить
-            renderSlides();
-            restartSlider();
         } else if (page === "services") {
             await renderServicesPage();
         } else if (page === "clinics") {
             await renderClinicsPage();
+        }
+
+        applyTranslations();
+
+        if (page === "home") {
+            // важно: после вставки домашней разметки снова найти слайдер и запустить
+            renderSlides();
+            restartSlider();
         }
         pageContent.classList.remove("fade-out");
         pageContent.classList.add("fade-in");
