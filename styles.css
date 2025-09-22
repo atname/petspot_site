@@ -553,6 +553,14 @@ p {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex: 1;
+}
+
+.clinic-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2px;
 }
 
 .clinic-info h3 {
@@ -564,6 +572,31 @@ p {
 .clinic-info p {
     margin: 0;
     font-size: 14px;
+    color: #555;
+}
+
+.clinic-status {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f1f1f1;
+    color: #555;
+}
+
+.clinic-status--open {
+    background: #e6f4ea;
+    color: #0f7b31;
+}
+
+.clinic-status--closed {
+    background: #fee8e8;
+    color: #c62828;
+}
+
+.clinic-status--unknown {
+    background: #eee;
     color: #555;
 }
 

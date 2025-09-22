@@ -450,15 +450,22 @@ async function renderClinicsPage(selectedCityId = "all", viewMode = "list") {
 
                 const st = getClinicStatus(c);
                 const statusLabel = st[currentLang] || st.ru;
+                const statusClass = st.color === "green"
+                    ? "clinic-status--open"
+                    : st.color === "red"
+                        ? "clinic-status--closed"
+                        : "clinic-status--unknown";
 
                 return `
                   <div class="service-card clinic-card" data-idx="${idx}">
                     <img src="${c.photoUrl}" alt="${title}">
                     <div class="clinic-info">
-                      <h3>${title}</h3>
+                      <div class="clinic-header">
+                        <h3>${title}</h3>
+                        <span class="clinic-status ${statusClass}">${statusLabel}</span>
+                      </div>
                       <p>${cityName}</p>
                       <p>${address || ""}</p>
-                      <p style="color:${st.color};font-weight:600;margin-top:6px;">${statusLabel}</p>
                     </div>
                   </div>`;
             }).join("")
