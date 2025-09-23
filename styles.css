@@ -374,6 +374,7 @@ p {
     flex-direction: column;
     gap: 16px;
     width: 240px;                    /* фиксированная ширина */
+    flex: 0 0 240px;                 /* не даём сжиматься во флексе */
 }
 
 .filter-card h3 {
