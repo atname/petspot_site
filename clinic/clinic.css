@@ -1,0 +1,230 @@
+/* Styles specific to clinic pages while preserving the global look */
+
+body.clinic-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero.clinic-hero {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding: 64px 0 96px;
+}
+
+.clinic-page .hero-inner {
+    width: 100%;
+}
+
+.clinic-topbar {
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.clinic-login-body {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+}
+
+.clinic-login-panel {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 24px;
+    padding: 36px 40px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.clinic-login-panel h1 {
+    margin: 0 0 12px;
+    font-size: 32px;
+    color: #1F1F1F;
+}
+
+.clinic-login-panel p.description {
+    margin: 0 0 28px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: rgba(31, 31, 31, 0.7);
+}
+
+.clinic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.clinic-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.clinic-form label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1F1F1F;
+}
+
+.clinic-form input[type="text"],
+.clinic-form input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 16px;
+}
+
+.clinic-form input:focus {
+    border-color: var(--accent-orange);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.25);
+}
+
+.clinic-form button[type="submit"],
+.clinic-logout-btn {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+    color: var(--white);
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.clinic-form button[type="submit"]:hover,
+.clinic-form button[type="submit"]:focus,
+.clinic-logout-btn:hover,
+.clinic-logout-btn:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(255, 140, 66, 0.4);
+}
+
+.clinic-status {
+    min-height: 24px;
+    font-size: 14px;
+    color: #d35400;
+}
+
+.clinic-status.error {
+    color: #e74c3c;
+}
+
+.clinic-status.success {
+    color: #27ae60;
+}
+
+.cabinet-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+
+.cabinet-sidebar {
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.cabinet-sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 28px;
+}
+
+.cabinet-info {
+    display: grid;
+    gap: 12px;
+}
+
+.cabinet-info-row {
+    display: grid;
+    gap: 6px;
+}
+
+.cabinet-info-label {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.cabinet-info-value {
+    font-size: 17px;
+    color: #1F1F1F;
+    word-break: break-word;
+}
+
+.cabinet-content {
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.cabinet-content h1 {
+    margin-top: 0;
+    font-size: 36px;
+}
+
+.cabinet-empty {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 960px) {
+    .cabinet-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cabinet-sidebar {
+        order: 2;
+    }
+
+    .cabinet-content {
+        order: 1;
+    }
+}
+
+@media (max-width: 820px) {
+    .hero.clinic-hero {
+        padding: 48px 0 72px;
+    }
+
+    .clinic-login-body {
+        align-items: center;
+        margin-top: 40px;
+    }
+
+    .clinic-topbar {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .clinic-login-panel {
+        padding: 32px 28px;
+    }
+
+    .cabinet-content,
+    .cabinet-sidebar {
+        padding: 24px;
+    }
+}
