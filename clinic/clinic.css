@@ -1,0 +1,202 @@
+/* Styles specific to clinic pages while preserving the global look */
+
+body.clinic-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero.clinic-hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.clinic-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.clinic-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 28px;
+    padding: 40px 48px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.clinic-card .logo-block {
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.clinic-card h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.clinic-card p.description {
+    text-align: center;
+    margin-bottom: 32px;
+    margin-top: 0;
+}
+
+.clinic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.clinic-form label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1F1F1F;
+}
+
+.clinic-form input[type="text"],
+.clinic-form input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 16px;
+}
+
+.clinic-form input:focus {
+    border-color: var(--accent-orange);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.25);
+}
+
+.clinic-form button[type="submit"],
+.clinic-logout-btn {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+    color: var(--white);
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.clinic-form button[type="submit"]:hover,
+.clinic-form button[type="submit"]:focus,
+.clinic-logout-btn:hover,
+.clinic-logout-btn:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(255, 140, 66, 0.4);
+}
+
+.clinic-status {
+    min-height: 24px;
+    font-size: 14px;
+    color: #d35400;
+}
+
+.clinic-status.error {
+    color: #e74c3c;
+}
+
+.clinic-status.success {
+    color: #27ae60;
+}
+
+.cabinet-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+
+.cabinet-sidebar {
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.cabinet-sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 28px;
+}
+
+.cabinet-info {
+    display: grid;
+    gap: 12px;
+}
+
+.cabinet-info-row {
+    display: grid;
+    gap: 6px;
+}
+
+.cabinet-info-label {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.cabinet-info-value {
+    font-size: 17px;
+    color: #1F1F1F;
+    word-break: break-word;
+}
+
+.cabinet-content {
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 28px;
+    padding: 32px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.cabinet-content h1 {
+    margin-top: 0;
+    font-size: 36px;
+}
+
+.cabinet-empty {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 960px) {
+    .cabinet-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cabinet-sidebar {
+        order: 2;
+    }
+
+    .cabinet-content {
+        order: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .clinic-card {
+        padding: 32px 28px;
+    }
+
+    .cabinet-content,
+    .cabinet-sidebar {
+        padding: 24px;
+    }
+}
