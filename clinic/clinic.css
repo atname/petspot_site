@@ -14,6 +14,17 @@ body.clinic-page {
     padding-bottom: 80px;
 }
 
+.clinic-hero .hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.clinic-hero-header {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .clinic-wrapper {
     width: 100%;
     display: flex;

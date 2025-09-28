@@ -43,21 +43,52 @@ function saveSession(data) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(payload));
 }
 
-async function verifyCredentials(username, password) {
-    const q = query(
-        collection(db, 'clinics_login'),
-        where('username', '==', username.trim()),
-        limit(1)
-    );
+async function findLoginDocument(usernameInput) {
+    const normalizedUsername = usernameInput.trim();
+    const attempts = [normalizedUsername];
 
-    const snap = await getDocs(q);
-    if (snap.empty) {
+    const numericUsername = Number(normalizedUsername);
+    if (!Number.isNaN(numericUsername)) {
+        attempts.push(numericUsername);
+    }
+
+    for (const value of attempts) {
+        const usernameQuery = query(
+            collection(db, 'clinics_login'),
+            where('username', '==', value),
+            limit(1)
+        );
+
+        const snap = await getDocs(usernameQuery);
+        if (!snap.empty) {
+            return snap.docs[0];
+        }
+    }
+
+    return null;
+}
+
+function passwordsMatch(storedPassword, inputPassword) {
+    const normalizedInput = inputPassword.trim();
+    if (typeof storedPassword === 'string') {
+        return storedPassword.trim() === normalizedInput;
+    }
+
+    if (typeof storedPassword === 'number') {
+        return storedPassword.toString() === normalizedInput;
+    }
+
+    return false;
+}
+
+async function verifyCredentials(username, password) {
+    const doc = await findLoginDocument(username);
+    if (!doc) {
         return null;
     }
 
-    const doc = snap.docs[0];
     const data = doc.data();
-    if (data.password !== password) {
+    if (!passwordsMatch(data.password, password)) {
         return null;
     }
 
