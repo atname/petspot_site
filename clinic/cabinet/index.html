@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSpot Clinic — Кабинет</title>
+    <link rel="icon" type="image/png" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../clinic.css">
+</head>
+<body class="clinic-page clinic-cabinet-page">
+<section class="hero clinic-hero">
+    <div class="hero-inner">
+        <div class="hero-header">
+            <div class="topbar">
+                <div class="logo-block">
+                    <div class="logo">
+                        <img src="../../images/logo.png" alt="PetSpot logo">
+                    </div>
+                    <span class="logo-text">PetSpot Clinic</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-body page-stack">
+            <div class="cabinet-layout" id="cabinet-layout" hidden>
+                <aside class="cabinet-sidebar">
+                    <h2 id="clinic-name">Клиника</h2>
+                    <div class="cabinet-info" id="clinic-info"></div>
+                    <button class="clinic-logout-btn" type="button" id="clinic-logout">Выйти</button>
+                </aside>
+                <div class="cabinet-content">
+                    <h1 id="cabinet-title">Личный кабинет клиники</h1>
+                    <p id="cabinet-subtitle">Здесь появятся инструменты для управления профилем и услугами вашей клиники.</p>
+                    <div id="cabinet-extra"></div>
+                </div>
+            </div>
+            <div class="cabinet-empty" id="cabinet-empty" hidden>
+                <p>Не удалось загрузить данные клиники. Попробуйте обновить страницу или войдите снова.</p>
+                <button class="clinic-logout-btn" type="button" id="cabinet-logout-fallback">На страницу входа</button>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>PetSpot</h4>
+            <p>Онлайн-паспорт питомца и сервисы рядом</p>
+        </div>
+        <div class="footer-col">
+            <h4>Документы</h4>
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Условия использования</a>
+        </div>
+        <div class="footer-col">
+            <h4>Контакты</h4>
+            <a href="mailto:support@petspot.love">support@petspot.love</a>
+            <a href="#">Telegram</a>
+        </div>
+        <div class="footer-col">
+            <h4>Язык</h4>
+            <div class="lang-dropdown">
+                <button class="lang-btn" type="button">
+                    <img src="../../images/flags/ru.png" alt="RU">
+                    <span>Русский</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 PetSpot</div>
+</footer>
+<script type="module" src="./cabinet.js"></script>
+</body>
+</html>
