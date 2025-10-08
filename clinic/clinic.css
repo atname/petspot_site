@@ -1,21 +1,38 @@
-/* Styles specific to clinic pages while preserving the global look */
+/* ===========================
+   PetSpot Clinic — clinic.css
+   =========================== */
 
+/* ===== База страницы клиники ===== */
 body.clinic-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
+.clinic-page .footer-inner{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: start;
+    column-gap: 72px;
+}
+
+
 .hero.clinic-hero {
     flex: 1;
     display: flex;
     justify-content: center;
-    padding-top: 64px;
-    padding-bottom: 96px;
+    padding: 48px 0;
+    background: var(--light-surface);
+    border-radius: 0;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .07);
+    width: 100%;
 }
 
 .hero.clinic-hero .hero-inner {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
 .hero.clinic-hero .hero-header {
@@ -25,50 +42,33 @@ body.clinic-page {
 
 .hero.clinic-hero .hero-header .topbar {
     width: 100%;
-    max-width: 960px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.hero-body.clinic-hero-body {
+.hero-body.page-stack {
     display: flex;
     justify-content: center;
-    margin-top: 56px;
-}
-
-.clinic-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    margin-top: 40px;
 }
 
 @media (max-width: 720px) {
     .hero.clinic-hero {
-        padding-top: 48px;
-        padding-bottom: 72px;
+        padding: 40px 0
     }
 
-    .hero-body.clinic-hero-body {
-        margin-top: 36px;
-    }
-
-    .hero.clinic-hero .hero-header .topbar {
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-
-    .hero.clinic-hero .hero-header .header-nav {
-        width: 100%;
-        justify-content: center;
-        margin-left: 0;
+    .hero-body.page-stack {
+        margin-top: 32px
     }
 }
 
 .clinic-card {
     width: 100%;
     max-width: 420px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, .6);
     border-radius: 28px;
     padding: 40px 48px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .12);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
 }
@@ -86,8 +86,7 @@ body.clinic-page {
 
 .clinic-card p.description {
     text-align: center;
-    margin-bottom: 32px;
-    margin-top: 0;
+    margin: 0 0 32px;
 }
 
 .clinic-form {
@@ -102,42 +101,37 @@ body.clinic-page {
     color: #1F1F1F;
 }
 
-.clinic-form input[type="text"],
-.clinic-form input[type="password"] {
+.clinic-form input[type="text"], .clinic-form input[type="password"] {
     width: 100%;
     padding: 14px 16px;
     border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, .15);
+    background: rgba(255, 255, 255, .85);
     font-size: 16px;
 }
 
 .clinic-form input:focus {
     border-color: var(--accent-orange);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.25);
+    box-shadow: 0 0 0 3px rgba(255, 140, 66, .25);
 }
 
-.clinic-form button[type="submit"],
-.clinic-logout-btn {
+.clinic-form button[type="submit"], .clinic-logout-btn {
     margin-top: 10px;
     padding: 16px;
     border-radius: 14px;
     border: none;
     background: linear-gradient(135deg, #FF8C42, #FF6B6B);
-    color: var(--white);
+    color: #fff;
     font-size: 17px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform .15s ease, box-shadow .15s ease;
 }
 
-.clinic-form button[type="submit"]:hover,
-.clinic-form button[type="submit"]:focus,
-.clinic-logout-btn:hover,
-.clinic-logout-btn:focus {
+.clinic-form button[type="submit"]:hover, .clinic-form button[type="submit"]:focus, .clinic-logout-btn:hover, .clinic-logout-btn:focus {
     transform: translateY(-1px);
-    box-shadow: 0 10px 26px rgba(255, 140, 66, 0.4);
+    box-shadow: 0 10px 26px rgba(255, 140, 66, .4);
 }
 
 .clinic-status {
@@ -154,91 +148,531 @@ body.clinic-page {
     color: #27ae60;
 }
 
+/* ===== Кабинет: сетка ===== */
 .cabinet-layout {
     display: grid;
-    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+    grid-template-columns:minmax(0, 240px) minmax(0, 1fr);
     gap: 48px;
     align-items: start;
 }
 
 .cabinet-sidebar {
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, .55);
     border-radius: 28px;
-    padding: 32px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
 }
 
 .cabinet-sidebar h2 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    font-size: 28px;
+    display: none;
 }
 
-.cabinet-info {
+/* Мини-карточка клиники в сайдбаре */
+.clinic-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, .9);
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 16px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
+    margin: 0 0 14px 0;
+    overflow: hidden;
+}
+
+.clinic-mini .avatar {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFE7D6, #FFF3E3);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .06);
+}
+
+.clinic-mini .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.clinic-mini .info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.clinic-mini .title {
+    font-weight: 800;
+    font-size: 16px;
+    color: #2E2E2E;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clinic-mini .subtitle {
+    font-weight: 600;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===== Меню — упрощённый строгий стиль ===== */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* базовый вид: без теней и без иконок, более толстая обводка */
+.menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(0, 0, 0, .12);
+    border-radius: 14px;
+    background: #fff;
+    color: #2E2E2E;
+    font-size: 15px;
+    font-weight: 500; /* убран жирный */
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease, transform .08s ease;
+    box-shadow: none; /* подсветка/тень убрана */
+}
+
+/* полностью выключаем псевдо-иконки */
+.menu-btn::before {
+    content: none;
+    display: none;
+}
+
+/* hover/focus — только цвет рамки и лёгкий сдвиг */
+.menu-btn:hover {
+    transform: translateY(-1px);
+    border-color: #FFB08B;
+    background: #fff;
+}
+
+.menu-btn:focus {
+    outline: none;
+    border-color: #ff9a6b;
+}
+
+/* active — усиленный акцент рамкой, без фона */
+.menu-btn.active {
+    border-color: #FF8C42;
+    background: #fff;
+}
+
+/* «Выйти» — тоже без иконки; оставим фирменный градиент, но без лишних эффектов */
+#menu-logout {
+    margin-top: 18px;
+    background: linear-gradient(135deg, #ff6b6b, #ff3b3b);
+    color: #fff;
+    border: 0;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+#menu-logout::before {
+    content: none;
+    display: none;
+}
+
+#menu-logout:hover {
+    transform: translateY(-1px);
+}
+
+#menu-logout:focus {
+    outline: none;
+}
+
+/* Правая колонка (контент) */
+.cabinet-content {
+    background: rgba(255, 255, 255, .45);
+    border-radius: 28px;
+    padding: 20px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-height: 200px;
+}
+
+/* ===== Шапка над блоками: только кнопка справа ===== */
+.services-root, .info-root {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.services-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0;
+    margin: 0 0 8px 0;
+    background: transparent;
+    border: none;
+}
+
+.save-btn {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #ffd2bf;
+    color: #7a2e00;
+    font-weight: 700;
+    transition: filter .15s ease, transform .1s ease;
+}
+
+.save-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    filter: saturate(.6);
+}
+
+.save-btn.active {
+    background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+    color: #fff;
+}
+
+.save-btn.active:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(255, 140, 66, .35);
+}
+
+/* ===== Категории и услуги ===== */
+.service-cats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cat-item {
+    background: #fff8ef;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.cat-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cat-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.cat-name {
+    flex: 1;
+}
+
+.cat-services {
+    padding: 8px 14px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.svc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.svc {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.svc-check {
+    width: 18px;
+    height: 18px;
+}
+
+.svc-title {
+    flex: 1;
+}
+
+/* Цена справа */
+.price-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    padding: 6px 10px;
+    border-radius: 10px;
+    min-width: 110px;
+    justify-content: flex-end;
+}
+
+.price-input {
+    width: 80px;
+    border: none;
+    outline: none;
+    background: transparent;
+    text-align: right;
+    font-weight: 700;
+}
+
+.price-input::-webkit-outer-spin-button, .price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.currency {
+    font-weight: 700;
+    opacity: .8;
+}
+
+.skeleton {
+    opacity: .6;
+}
+
+/* ===== INFO form ===== */
+.info-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-form .form-row {
     display: grid;
     gap: 12px;
 }
 
-.cabinet-info-row {
-    display: grid;
+.info-form .form-row.one {
+    grid-template-columns:1fr;
+}
+
+.info-form .form-row.two {
+    grid-template-columns:1fr 1fr;
+}
+
+.info-form .form-row.three {
+    grid-template-columns:1fr 1fr 1fr;
+}
+
+.info-form .field {
+    display: flex;
+    flex-direction: column;
     gap: 6px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 12px;
+    padding: 10px 12px;
 }
 
-.cabinet-info-label {
+.info-form .field label {
     font-size: 13px;
-    letter-spacing: 0.05em;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
+    font-weight: 700;
+    opacity: .8;
 }
 
-.cabinet-info-value {
-    font-size: 17px;
-    color: #1F1F1F;
-    word-break: break-word;
+.info-form .field input, .info-form .field textarea {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: #fff;
 }
 
-.cabinet-content {
-    background: rgba(255, 255, 255, 0.45);
-    border-radius: 28px;
-    padding: 32px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+.info-form .field textarea {
+    resize: vertical;
 }
 
-.cabinet-content h1 {
-    margin-top: 0;
-    font-size: 36px;
+/* ---- РАСПИСАНИЕ ---- */
+.schedule-block {
+    padding: 14px 12px;
 }
 
-.cabinet-empty {
-    font-size: 18px;
-    color: rgba(0, 0, 0, 0.6);
+.schedule-head {
+    display: grid;
+    grid-template-columns:1.5fr 1fr 1fr .9fr;
+    gap: 12px;
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    opacity: .8;
+}
+
+.schedule-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.day-row {
+    display: grid;
+    grid-template-columns:1.5fr 1fr 1fr .9fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.day-name {
+    font-weight: 700;
+}
+
+.day-time input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.day-24 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
 }
 
 @media (max-width: 960px) {
     .cabinet-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .cabinet-sidebar {
-        order: 2;
-    }
-
-    .cabinet-content {
-        order: 1;
+        grid-template-columns:1fr;
     }
 }
 
 @media (max-width: 640px) {
-    .clinic-card {
-        padding: 32px 28px;
+    .info-form .form-row.two {
+        grid-template-columns:1fr;
     }
 
-    .cabinet-content,
-    .cabinet-sidebar {
-        padding: 24px;
+    .info-form .form-row.three {
+        grid-template-columns:1fr;
+    }
+
+    .schedule-head, .day-row {
+        grid-template-columns:1fr 1fr;
+        gap: 8px;
+    }
+
+    .schedule-head div:nth-child(3), .schedule-head div:nth-child(4) {
+        display: none;
+    }
+
+    .day-row .day-24 {
+        grid-column: 1 / -1;
+        justify-self: flex-start;
     }
 }
+
+/* ===== Simple language checkboxes ===== */
+.lang-field { display:flex; flex-wrap:wrap; gap:10px; }
+.lang-check {
+    display:inline-flex; align-items:center; gap:8px;
+    margin-right:6px; padding:8px 12px;
+    border:1px solid rgba(0,0,0,.12); border-radius:999px;
+    background:#fff; font-weight:700;
+}
+.lang-check input[type="checkbox"]{
+    width:18px; height:18px;
+    /* аккуратная «галочка» системная, но в фирменном цвете */
+    accent-color:#FF8C42;
+}
+/* Языки — расположить в ряд */
+.info-form .field.lang-field{
+    display: flex;          /* переопределяем базовый .field */
+    flex-direction: row;    /* вместо column */
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;        /* чтобы переносились на следующую строку при узком экране */
+}
+
+/* внешний вид чекбоксов */
+.info-form .field.lang-field .lang-check{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 999px;
+    background: #fff;
+}
+
+/* нативная галочка с фирменным цветом (можно убрать) */
+.info-form .field.lang-field .lang-check input[type="checkbox"]{
+    width: 18px;
+    height: 18px;
+    accent-color: #FF8C42;
+}
+.clinic-hero-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* чтобы форма была по центру, но не прижималась к хедеру */
+    margin-top: 0; /* убираем искусственный отступ сверху */
+}
+
+/* ===== Контейнер карточки ===== */
+.clinic-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* ===== Карточка входа ===== */
+.clinic-card {
+    display: flex;
+    flex-direction: column; /* всё в столбик */
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, .7);
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .12);
+    backdrop-filter: blur(18px);
+}
+
+/* ===== Форма входа — элементы вертикально ===== */
+.clinic-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+}
+
+/* ===== Поля ввода ===== */
+.clinic-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* ===== Кнопка ===== */
+.clinic-form button[type="submit"] {
+    align-self: stretch;
+    margin-top: 10px;
+}
+
+/* ===== Убираем лишний отступ между карточкой и шапкой ===== */

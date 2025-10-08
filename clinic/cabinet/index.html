@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PetSpot Clinic — Кабинет</title>
-    <link rel="icon" type="image/png" href="../../images/favicon.ico">
-    <link rel="stylesheet" href="../../styles.css">
-    <link rel="stylesheet" href="../clinic.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.ico" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="../clinic.css" />
 </head>
 <body class="clinic-page clinic-cabinet-page">
 <section class="hero clinic-hero">
@@ -14,43 +14,51 @@
         <div class="hero-header">
             <div class="topbar">
                 <div class="logo-block">
-                    <div class="logo">
-                        <img src="../../images/logo.png" alt="PetSpot logo">
-                    </div>
+                    <div class="logo"><img src="../../images/logo.png" alt="PetSpot logo" /></div>
                     <span class="logo-text">PetSpot Clinic</span>
                 </div>
             </div>
         </div>
+
         <div class="hero-body page-stack">
             <div class="cabinet-layout" id="cabinet-layout" hidden>
+                <!-- ЛЕВАЯ КОЛОНКА -->
                 <aside class="cabinet-sidebar">
-                    <h2 id="clinic-name">Клиника</h2>
-                    <div class="cabinet-info" id="clinic-info"></div>
-                    <button class="clinic-logout-btn" type="button" id="clinic-logout">Выйти</button>
+                    <!-- Карточка клиники -->
+                    <div class="clinic-mini" id="clinic-mini" hidden>
+                        <div class="avatar">
+                            <img id="clinic-mini-logo" alt="Clinic logo" />
+                        </div>
+                        <div class="info">
+                            <div class="title" id="clinic-mini-name">—</div>
+                            <div class="subtitle" id="clinic-mini-sub">Pet clinic</div>
+                        </div>
+                    </div>
+
+                    <nav class="menu-list">
+                        <button type="button" class="menu-btn active" id="menu-services">Услуги</button>
+                        <button type="button" class="menu-btn" id="menu-info">Информация</button>
+                        <button type="button" class="menu-btn" id="menu-logout">Выйти</button>
+                    </nav>
                 </aside>
-                <div class="cabinet-content">
-                    <h1 id="cabinet-title">Личный кабинет клиники</h1>
-                    <p id="cabinet-subtitle">Здесь появятся инструменты для управления профилем и услугами вашей клиники.</p>
-                    <div id="cabinet-extra"></div>
-                </div>
+
+                <!-- ПРАВАЯ КОЛОНКА -->
+                <div class="cabinet-content" id="cabinet-content"></div>
             </div>
+
             <div class="cabinet-empty" id="cabinet-empty" hidden>
-                <p>Не удалось загрузить данные клиники. Попробуйте обновить страницу или войдите снова.</p>
+                <p>Не удалось загрузить данные. Попробуйте обновить страницу или войдите снова.</p>
                 <button class="clinic-logout-btn" type="button" id="cabinet-logout-fallback">На страницу входа</button>
             </div>
         </div>
     </div>
 </section>
+
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-col">
             <h4>PetSpot</h4>
             <p>Онлайн-паспорт питомца и сервисы рядом</p>
-        </div>
-        <div class="footer-col">
-            <h4>Документы</h4>
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Условия использования</a>
         </div>
         <div class="footer-col">
             <h4>Контакты</h4>
@@ -59,16 +67,64 @@
         </div>
         <div class="footer-col">
             <h4>Язык</h4>
-            <div class="lang-dropdown">
-                <button class="lang-btn" type="button">
-                    <img src="../../images/flags/ru.png" alt="RU">
-                    <span>Русский</span>
+            <div class="lang-dropdown" id="lang-dropdown">
+                <button class="lang-btn" type="button" id="lang-toggle">
+                    <img src="../../images/flags/ru.png" alt="RU" id="lang-flag" />
+                    <span id="lang-label">Русский</span>
                 </button>
+                <div class="dropdown-menu" id="lang-menu">
+                    <button type="button" data-lang="ru" class="active">
+                        <img src="../../images/flags/ru.png" alt="RU" /> Русский
+                    </button>
+                    <button type="button" data-lang="en">
+                        <img src="../../images/flags/en.png" alt="EN" /> English
+                    </button>
+                    <button type="button" data-lang="ka">
+                        <img src="../../images/flags/ge.png" alt="KA" /> ქართული
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     <div class="footer-bottom">© 2025 PetSpot</div>
 </footer>
+
 <script type="module" src="./cabinet.js"></script>
+<script>
+    // переключатель языка
+    const dd = document.getElementById('lang-dropdown');
+    const toggle = document.getElementById('lang-toggle');
+    const menu = document.getElementById('lang-menu');
+    const flag = document.getElementById('lang-flag');
+    const label = document.getElementById('lang-label');
+    const currentLang = localStorage.getItem('lang') || 'ru';
+
+    function setUI(lang){
+        const map = {
+            ru:['../../images/flags/ru.png','Русский'],
+            en:['../../images/flags/en.png','English'],
+            ka:['../../images/flags/ge.png','ქართული']
+        };
+        flag.src = map[lang][0];
+        label.textContent = map[lang][1];
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+
+        // обновим подписи левого меню без перезагрузки
+        window._applyCabinetStaticI18n && window._applyCabinetStaticI18n();
+    }
+
+    setUI(currentLang);
+
+    toggle?.addEventListener('click',()=>dd.classList.toggle('open'));
+    menu?.addEventListener('click',(e)=>{
+        const btn=e.target.closest('button[data-lang]'); if(!btn) return;
+        menu.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        setUI(btn.dataset.lang);
+        dd.classList.remove('open');
+    });
+    document.addEventListener('click',(e)=>{ if(!dd.contains(e.target)) dd.classList.remove('open'); });
+</script>
 </body>
 </html>

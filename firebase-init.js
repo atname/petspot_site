@@ -34,3 +34,7 @@ export async function loadVetClinics() {
     const snap = await getDocs(collection(db, "vet_clinics"));
     return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
+export async function loadClinicServiceCategories() {
+    const snap = await getDocs(collection(db, "clinic_service_category"));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}

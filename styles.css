@@ -7,8 +7,10 @@
     --white: #FFFFFF;
     --black: #000000;
     --light-gray: #CCCCCC;
+    --line: #F1E7DB;
 }
 
+/* Font */
 @font-face {
     font-family: "MyUI";
     src: url("fonts/NotoSans.ttf") format("truetype");
@@ -44,7 +46,7 @@ a:focus {
     padding: 0 24px;
 }
 
-/* ===== Header / Topbar ===== */
+/* ===== Header ===== */
 .site-header {
     background: transparent;
 }
@@ -62,8 +64,8 @@ a:focus {
     justify-content: space-between;
     padding: 12px 16px;
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, .35);
+    border: 1px solid rgba(255, 255, 255, .6);
     box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -84,7 +86,7 @@ a:focus {
 
 .logo-text {
     font-size: 28px;
-    font-weight: bold;
+    font-weight: 700;
     color: #333;
     line-height: 1;
 }
@@ -99,30 +101,29 @@ a:focus {
     font-size: 18px;
     font-weight: 500;
     color: #333;
-    text-decoration: none;
     padding: 6px 12px;
     border-radius: 8px;
-    transition: color 0.2s, background-color 0.2s;
+    transition: color .2s, background-color .2s;
     border: none;
     background: none;
 }
 
-.header-nav a:focus { outline: none; }
-.header-nav a:hover { color: var(--accent-orange); }
-.header-nav a.active {
-    background-color: var(--accent-orange);
-    color: var(--white);
-    border: none;
+.header-nav a:hover {
+    color: var(--accent-orange);
 }
 
-/* ===== Main / hero ===== */
+.header-nav a.active {
+    background: var(--accent-orange);
+    color: #fff;
+}
+
+/* ===== Hero ===== */
 .hero {
     margin-top: 0;
     background: var(--light-surface);
     border-radius: 0;
     padding: 48px 0;
     box-shadow: 0 16px 40px rgba(0, 0, 0, .07);
-    position: relative;
     width: 100%;
 }
 
@@ -140,9 +141,14 @@ a:focus {
     gap: 32px;
 }
 
-.hero-body.services-mode { display: block; }
+.hero-body.services-mode {
+    display: block;
+}
 
-.hero-left { flex: 1 1 60%; }
+.hero-left {
+    flex: 1 1 60%;
+}
+
 .hero-right {
     flex: 1 1 40%;
     display: flex;
@@ -154,7 +160,7 @@ a:focus {
 h1 {
     font-size: 48px;
     line-height: 1.15;
-    margin: 8px 0 0px;
+    margin: 8px 0 0;
     color: #2E2E2E;
 }
 
@@ -187,9 +193,9 @@ p {
 .card {
     width: 250px;
     height: 100px;
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, .35);
     border-radius: 16px;
-    box-shadow: 0 0 16px rgba(255, 140, 66, 0.6);
+    box-shadow: 0 0 16px rgba(255, 140, 66, .6);
     display: flex;
     align-items: center;
     gap: 14px;
@@ -212,21 +218,20 @@ p {
     object-fit: contain;
 }
 
-/* Phone / slider */
+/* Phone/slider */
 .phone {
     width: 280px;
     height: 575px;
     border-radius: 36px;
     background: linear-gradient(#FFF, #FFF8F0);
     box-shadow: 0 10px 28px rgba(0, 0, 0, .08), inset 0 0 0 1px rgba(0, 0, 0, .06);
-    padding: 16px;   /* <-- вот это делает белую рамку */
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     position: relative;
     z-index: 1;
 }
-
 
 .slider {
     width: 100%;
@@ -241,7 +246,7 @@ p {
     display: flex;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s ease-in-out;
+    transition: transform .8s ease-in-out;
 }
 
 .slides img {
@@ -261,11 +266,8 @@ p {
 .phone-wrapper::before {
     content: "";
     position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background: rgba(255, 140, 66, 0.6);
+    inset: -5px;
+    background: rgba(255, 140, 66, .6);
     filter: blur(15px);
     border-radius: 50px;
     z-index: 0;
@@ -287,17 +289,41 @@ p {
     gap: 40px;
 }
 
-.footer-col { flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px; }
-.footer-col h4 { font-size: 18px; margin-bottom: 12px; color: #2E2E2E; }
-.footer-col a { font-size: 14px; color: rgba(0, 0, 0, .75); }
-.footer-col a:hover { color: var(--accent-orange); }
-.footer-bottom { text-align: center; margin-top: 30px; font-size: 14px; color: rgba(0, 0, 0, .6); }
+.footer-col {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-col h4 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #2E2E2E;
+}
+
+.footer-col a {
+    font-size: 14px;
+    color: rgba(0, 0, 0, .75);
+}
+
+.footer-col a:hover {
+    color: var(--accent-orange);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, .6);
+}
 
 /* Dropdown */
 .lang-dropdown {
     position: relative;
     display: inline-block;
 }
+
 .lang-btn {
     display: flex;
     align-items: center;
@@ -309,8 +335,9 @@ p {
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    transition: background 0.2s;
+    transition: background .2s;
 }
+
 .lang-btn img {
     width: 22px;
     height: 22px;
@@ -324,7 +351,7 @@ p {
     left: 0;
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 6px 14px rgba(0,0,0,.15);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .15);
     display: flex;
     flex-direction: column;
     padding: 6px 0;
@@ -332,7 +359,7 @@ p {
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
-    transition: all 0.25s ease;
+    transition: all .25s ease;
     z-index: 100;
 }
 
@@ -361,20 +388,23 @@ p {
     pointer-events: auto;
 }
 
-/* SERVICES PAGE */
-.services-wrap { display: flex; gap: 24px; }
+/* ===== Services & Clinics ===== */
+.services-wrap {
+    display: flex;
+    gap: 24px;
+}
 
-/* ===== Фильтр ===== */
+/* Filter */
 .filter-card {
-    background: #FCEFE3;             /* мягкий бежевый фон */
-    border-radius: 12px;             /* скругления */
+    background: #FFF8F0;
+    border-radius: 12px;
     padding: 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 240px;                    /* фиксированная ширина */
-    flex: 0 0 240px;                 /* не даём сжиматься во флексе */
+    width: 240px;
+    flex: 0 0 240px;
 }
 
 .filter-card h3 {
@@ -400,46 +430,42 @@ p {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: none;   /* убираем скролл */
 }
 
 .filter-options label {
-    font-size: 12px;   /* размер текста */
-    font-weight: 400;  /* обычный (не жирный) */
+    font-size: 12px;
+    font-weight: 400;
     color: #333;
     display: flex;
     align-items: center;
-    gap: 8px;          /* отступ между чекбоксом и текстом */
+    gap: 8px;
 }
 
 .filter-options input[type="checkbox"] {
-    width: 15px;       /* ширина чекбокса */
-    height: 15px;      /* высота чекбокса */
+    width: 15px;
+    height: 15px;
     accent-color: var(--accent-orange);
     cursor: pointer;
 }
 
 .filter-card select {
-    appearance: none;            /* убираем стандартный вид */
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
     width: 100%;
     padding: 12px 14px;
     font-size: 14px;
     font-weight: 500;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background: #fff url("images/icons/arrow-down.svg") no-repeat right 12px center;
-    background-size: 16px;
+    background: #fff url("images/icons/arrow-down.svg") no-repeat right 12px center / 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,.05);
+    transition: all .2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
 }
 
 .filter-card select:focus {
     outline: none;
     border-color: var(--accent-orange);
-    box-shadow: 0 0 0 3px rgba(255,140,66,0.3);
+    box-shadow: 0 0 0 3px rgba(255, 140, 66, .3);
 }
 
 .apply-btn {
@@ -452,14 +478,14 @@ p {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background .2s;
 }
 
 .apply-btn:hover {
     background: #e27735;
 }
 
-/* Общий контейнер для фильтра и контента */
+/* Wrapper */
 .services-warning {
     display: flex;
     align-items: center;
@@ -467,7 +493,7 @@ p {
     margin-bottom: 24px;
     padding: 12px 16px;
     border-radius: 12px;
-    background: rgba(231, 76, 60, 0.12);
+    background: rgba(231, 76, 60, .12);
     color: #a5312a;
     font-weight: 600;
 }
@@ -479,26 +505,19 @@ p {
 
 .services-layout {
     display: flex;
-    gap: 32px; /* расстояние между фильтром и заголовком */
-    align-items: flex-start; /* выравнивание по верхнему краю */
+    gap: 32px;
+    align-items: flex-start;
 }
 
-/* Левая колонка с фильтром */
-.filter-card {
-    background: #FFF8F0; /* светлее */
-}
-
-
-/* Правая часть (контент и заголовок "Услуги") */
 .services-main {
-    flex: 1; /* занимает оставшееся место */
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     gap: 20px;
 }
 
@@ -516,11 +535,17 @@ p {
 }
 
 .service-card {
-    background: #ffffff;
+    background: #fff;
     border-radius: 12px;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
     padding: 16px;
     text-align: start;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
 }
 
 .service-card img {
@@ -533,15 +558,14 @@ p {
 
 .service-card h3 {
     font-size: 18px;
-    margin: 8px 0 4px; /* маленький аккуратный отступ */
+    margin: 8px 0 4px;
     font-weight: 600;
 }
-
 
 .service-card p {
     font-size: 14px;
     color: #666;
-    margin: 0; /* убираем глобальный огромный отступ */
+    margin: 0;
 }
 
 .no-results {
@@ -553,39 +577,55 @@ p {
 
 .cards-grid.one-column {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns:1fr;
     gap: 16px;
 }
 
+/* view switch */
 .view-switch {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
+    display: inline-flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+}
+
+.services-main > .view-switch {
+    align-self: flex-start;
 }
 
 .view-switch button {
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fff;
+    padding: 8px 16px;
+    border: none;
+    background: #fdf6ef;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    transition: all .2s;
 }
 
 .view-switch button.active {
     background: var(--accent-orange);
     color: #fff;
-    border-color: var(--accent-orange);
 }
 
+/* Clinic cards */
 .clinic-card {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
     padding: 16px;
-    display: flex;              /* ← фотка и текст в ряд */
+    display: flex;
     align-items: center;
     gap: 16px;
-    text-align: left;           /* ← только клиники выравнены слева */
+    text-align: left;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.clinic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
 }
 
 .clinic-card img {
@@ -625,7 +665,7 @@ p {
 .clinic-status {
     margin-left: auto;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     padding: 4px 10px;
     border-radius: 999px;
     background: #f1f1f1;
@@ -647,52 +687,22 @@ p {
     color: #555;
 }
 
-/* сетка для клиник */
-.cards-grid.clinics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+.clinic-status--services {
+    background: #ffe9d9;
+    color: #7a2e00;
 }
 
-.cards-grid.two-columns {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+/* grid */
+.cards-grid.clinics-grid, .cards-grid.two-columns {
+    grid-template-columns:repeat(2, 1fr);
     gap: 20px;
 }
 
-
-.view-switch {
-    display: inline-flex;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 12px 0 20px;
-}
-
-.services-main > .view-switch {
-    align-self: flex-start;
-}
-
-.view-switch button {
-    padding: 8px 16px;
-    border: none;
-    background: #fdf6ef;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    transition: all 0.2s ease;
-}
-
-.view-switch button.active {
-    background: var(--accent-orange);
-    color: #fff;
-}
-
+/* Map */
 .map-container {
     width: 1000px;
     height: 500px;
-    grid-column: 1 / -1;  /* растягиваем на всю ширину сетки */
+    grid-column: 1 / -1;
 }
 
 .map-container #map {
@@ -701,40 +711,496 @@ p {
     border-radius: 12px;
 }
 
-/* ==== Service modal ==== */
-.ps-modal-backdrop{
-    position:fixed; inset:0; background:rgba(0,0,0,.4);
-    display:flex; align-items:center; justify-content:center;
-    z-index:1000; animation: psFade .15s ease;
+/* ===== Modal (services) ===== */
+.ps-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: psFade .15s ease;
 }
-@keyframes psFade{from{opacity:0}to{opacity:1}}
 
-.ps-modal{
-    width:min(560px, 92vw);
-    background:#fff; border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,.18);
-    overflow:hidden;
+@keyframes psFade {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
 }
-.ps-modal header{
-    display:flex; gap:16px; align-items:center;
-    padding:16px 20px; background:#FFF8F0;
-}
-.ps-modal .ps-avatar{
-    width:84px; height:84px; border-radius:50%; object-fit:cover; flex:0 0 auto;
-}
-.ps-modal h3{ margin:0 0 6px; font-size:22px; }
-.ps-badge{
-    display:inline-flex; padding:4px 10px; border-radius:999px;
-    background:var(--accent-orange); color:#fff; font-size:12px; font-weight:600;
-}
-.ps-modal .ps-body{ padding:14px 20px 18px; display:flex; flex-direction:column; gap:12px; }
-.ps-row{ display:grid; grid-template-columns:160px 1fr; gap:10px; align-items:start; }
-.ps-row > span{ color:#666; font-size:14px; padding-top:3px; }
-.ps-row > div{ color:#222; font-size:16px; }
-.ps-close{
-    position:absolute; top:10px; right:12px; width:34px; height:34px;
-    border:none; border-radius:50%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.12);
-    cursor:pointer; font-size:18px; line-height:34px;
-}
-@media (max-width:480px){ .ps-row{ grid-template-columns:1fr; } }
 
+.ps-modal {
+    width: min(560px, 92vw);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+    overflow: hidden;
+    position: relative;
+}
+
+.ps-modal header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 20px;
+    background: #FFF8F0;
+}
+
+.ps-modal .ps-avatar {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: 0 0 auto;
+}
+
+.ps-modal h3 {
+    margin: 0 0 6px;
+    font-size: 22px;
+}
+
+.ps-badge {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ps-modal .ps-body {
+    padding: 14px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ps-row {
+    display: grid;
+    grid-template-columns:160px 1fr;
+    gap: 10px;
+    align-items: start;
+}
+
+.ps-row > span {
+    color: #666;
+    font-size: 14px;
+    padding-top: 3px;
+}
+
+.ps-row > div {
+    color: #222;
+    font-size: 16px;
+}
+
+.ps-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 34px;
+}
+
+@media (max-width: 480px) {
+    .ps-row {
+        grid-template-columns:1fr;
+    }
+}
+
+/* ====== Clinic Details (internal page) ====== */
+.clinic-details {
+    display: grid;
+    grid-template-columns: 1fr; /* <<< одна широкая колонка */
+    gap: 16px;
+    align-items: start;
+    margin-top: 10px;
+}
+
+/* маленькая кнопка */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .06);
+    padding: 8px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    width: auto; /* <<< не растягиваемся */
+    justify-self: start; /* <<< слева */
+}
+
+.back-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* инфоблок на всю ширину */
+.clinic-details-header {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.clinic-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.clinic-title-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.clinic-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.clinic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    color: #333;
+}
+
+.clinic-badges.big {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-item.full {
+    grid-column: 1 / -1; /* на всю ширину */
+}
+
+.info-label {
+    font-size: 13px;
+    font-weight: 800;
+    opacity: .8;
+}
+
+.info-value {
+    font-size: 16px;
+    color: #222;
+}
+
+.info-value.links a {
+    margin-right: 10px;
+    color: #0a66c2;
+}
+
+.schedule-box {
+    background: #fffaf3; /* нежный светло-бежевый фон */
+    border: 1px solid #f1e2c9; /* тонкая рамка */
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sch-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px dashed #eee;
+    padding: 4px 0;
+}
+
+.sch-row:last-child {
+    border-bottom: none;
+}
+
+/* Services list inside details */
+.clinic-services {
+    margin-top: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.clinic-section-title {
+    margin: 0;
+    padding: 14px 16px;
+    font-size: 18px;
+    font-weight: 900;
+    border-bottom: 1px solid var(--line);
+}
+:root { --card-pad: 20px; }
+
+.clinic-services {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    padding: 0 var(--card-pad) var(--card-pad); /* как у "Графика работы" */
+}
+
+/* заголовок внутри карточки — без линии */
+.clinic-services > .clinic-section-title {
+    margin: 0;
+    padding: 14px 0 10px;  /* боковые = 0, потому что паддинги у карточки */
+    font-size: 18px;
+    font-weight: 900;
+    border: 0;            /* важно: убираем прежнюю линию */
+}
+
+/* контейнер со списком категорий: рисуем верхнюю линию с нужными "паддингами" */
+.clinic-services-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;              /* ← промежуток между элементами */
+    padding: 10px 0 16px;
+    border-top: 1px solid var(--line);
+}
+
+
+.clinic-service-cat {
+    background: #fff8ef;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.clinic-service-cat details summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.clinic-service-cat details summary::-webkit-details-marker {
+    display: none;
+}
+
+.cat-title {
+    font-weight: 800;
+}
+
+.cat-services {
+    padding: 8px 14px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.svc-row {
+    display: grid;
+    grid-template-columns:1fr auto;
+    gap: 12px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 10px;
+}
+
+.svc-price {
+    font-weight: 900;
+    opacity: .9;
+}
+
+.svc-price.dash::after {
+    content: "—";
+    color: #666;
+}
+
+@media (max-width: 980px) {
+    .clinic-info-grid {
+        grid-template-columns:1fr;
+    }
+}
+
+.clinic-info-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 0;
+}
+
+.clinic-info-vertical .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.clinic-info-vertical .info-label {
+    font-weight: 600;
+}
+
+.clinic-info-vertical .info-value a {
+    color: #0a66c2;
+    text-decoration: none;
+}
+
+.clinic-info-vertical .info-value a:hover {
+    text-decoration: underline;
+}
+
+/* Верхняя строка — логотип, название и статусы */
+.clinic-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.clinic-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.clinic-header-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.clinic-name {
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.clinic-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Верхняя сетка: инфо слева, график справа */
+.clinic-top-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .clinic-top-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Карточка инфо */
+.clinic-info-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* График работы справа */
+.clinic-schedule-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+.clinic-schedule-card .clinic-section-title {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.schedule-box {
+    background: #fffaf3;
+    border: 2px solid #f1e2c9;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sch-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px dashed #eee;
+    padding: 4px 0;
+}
+.sch-row:last-child {
+    border-bottom: none;
+}
+/* рука и запрет выделения — на весь блок и его дочерние */
+.logo-block, .logo-block * {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+/* Единый горизонтальный рельс, чтобы всё совпадало с логотипом */
+:root { --rail-x: 16px; }
+
+/* Тот же отступ у топбара и у контента страниц (list/details) */
+.topbar { padding: 12px var(--rail-x); }
+
+/* Для внутренних страниц (services/clinics/details) — совпасть слева с логотипом */
+.hero-body.page-stack { padding-left: var(--rail-x); padding-right: var(--rail-x); }
+
+/* Жёлтый внутренний бокс — как у графика */
+.info-box {
+    background: #fffaf3;
+    border: 2px solid #f1e2c9;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.04);
+}
+
+/* Ритм строк внутри инфо */
+.info-box .info-item + .info-item {
+    border-top: 2px dashed #eee;
+    padding-top: 8px;
+}
+/* Иконка клиники в списке (в том числе фолбэк-логотип) */
+.clinic-card .clinic-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;   /* логотип круглый/аватар — выглядит одинаково */
+    background: #fff;    /* если логотип с прозрачностью */
+    flex-shrink: 0;
+}

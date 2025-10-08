@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>PetSpot Clinic — Вход</title>
-    <link rel="icon" type="image/png" href="../../images/favicon.ico">
-    <link rel="stylesheet" href="../../styles.css">
-    <link rel="stylesheet" href="../clinic.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.ico"/>
+    <link rel="stylesheet" href="../../styles.css"/>
+    <link rel="stylesheet" href="../clinic.css"/>
 </head>
 <body class="clinic-page clinic-login-page">
 <section class="hero clinic-hero">
@@ -14,9 +14,7 @@
         <div class="hero-header">
             <div class="topbar">
                 <div class="logo-block">
-                    <div class="logo">
-                        <img src="../../images/logo.png" alt="PetSpot logo">
-                    </div>
+                    <div class="logo"><img src="../../images/logo.png" alt="PetSpot logo"/></div>
                     <span class="logo-text">PetSpot</span>
                 </div>
             </div>
@@ -25,53 +23,72 @@
         <div class="hero-body clinic-hero-body">
             <div class="clinic-wrapper">
                 <div class="clinic-card">
-                    <h1>Кабинет клиники</h1>
-                    <p class="description">Войдите, чтобы управлять данными вашей ветеринарной клиники.</p>
-                    <form class="clinic-form" id="clinic-login-form">
+                    <h1 data-i18n="login_title">Кабинет клиники</h1>
+                    <p class="description" data-i18n="login_subtitle">
+                        Войдите, чтобы управлять данными вашей ветеринарной клиники.
+                    </p>
+
+                    <form class="clinic-form" id="clinic-login-form" novalidate>
                         <div class="field">
-                            <label for="username">Логин</label>
-                            <input type="text" id="username" name="username" autocomplete="username" required>
+                            <label for="username" data-i18n="login_username_label">Логин</label>
+                            <input type="text" id="username" name="username" autocomplete="username" required/>
                         </div>
+
                         <div class="field">
-                            <label for="password">Пароль</label>
-                            <input type="password" id="password" name="password" autocomplete="current-password" required>
+                            <label for="password" data-i18n="login_password_label">Пароль</label>
+                            <input type="password" id="password" name="password" autocomplete="current-password" required/>
                         </div>
+
                         <div class="clinic-status" id="clinic-status" role="status" aria-live="polite"></div>
-                        <button type="submit" id="clinic-submit">Войти</button>
+
+                        <button type="submit" id="clinic-submit" data-i18n="login_submit">Войти</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-col">
             <h4>PetSpot</h4>
-            <p>Онлайн-паспорт питомца и сервисы рядом</p>
+            <p data-i18n="footer_about">Онлайн-паспорт питомца и сервисы рядом</p>
         </div>
+
         <div class="footer-col">
-            <h4>Документы</h4>
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Условия использования</a>
-        </div>
-        <div class="footer-col">
-            <h4>Контакты</h4>
+            <h4 data-i18n="footer_contacts">Контакты</h4>
             <a href="mailto:support@petspot.love">support@petspot.love</a>
             <a href="#">Telegram</a>
         </div>
+
         <div class="footer-col">
-            <h4>Язык</h4>
+            <h4 data-i18n="footer_lang">Язык</h4>
             <div class="lang-dropdown">
                 <button class="lang-btn" type="button">
-                    <img src="../../images/flags/ru.png" alt="RU">
+                    <img src="../../images/flags/ru.png" alt="RU"/>
                     <span>Русский</span>
                 </button>
+                <div class="dropdown-menu">
+                    <button data-lang="ge">
+                        <img src="../../images/flags/ge.png" alt="GE"/>
+                        <span>ქართული</span>
+                    </button>
+                    <button data-lang="ru" class="active">
+                        <img src="../../images/flags/ru.png" alt="RU"/>
+                        <span>Русский</span>
+                    </button>
+                    <button data-lang="en">
+                        <img src="../../images/flags/en.png" alt="EN"/>
+                        <span>English</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     <div class="footer-bottom">© 2025 PetSpot</div>
 </footer>
+
 <script type="module" src="./login.js"></script>
 </body>
 </html>
