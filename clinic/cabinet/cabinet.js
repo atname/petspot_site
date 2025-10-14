@@ -95,6 +95,13 @@ function pickServiceTitle(svc) {
 function l(key) {
     const lang = getLang();
     const dict = {
+        saveHint: {
+            ru: "Если цена указана как 0, в приложении будет показано «Уточняйте в клинике».",
+            en: "If the price is set to 0, the app will display “Check at the clinic”.",
+            ka: "თუ ფასი მითითებულია როგორც 0, აპლიკაციაში გამოჩნდება „შეამოწმეთ კლინიკაში“."
+        },
+
+
         // меню
         mServices: {ru: "Услуги", en: "Services", ka: "სერვისები"},
         mInfo: {ru: "Информация", en: "Information", ka: "ინფორმაცია"},
@@ -245,6 +252,7 @@ function recomputeServicesDirty() {
 }
 
 async function loadServicesTab() {
+
     showLoading();
     originalSelected.clear();
     selectedServices.clear();
@@ -283,6 +291,10 @@ async function loadServicesTab() {
     const root = document.createElement("div");
     root.className = "services-root";
     const header = renderHeader("save-services-btn");
+    const hint = document.createElement("div");
+    hint.className = "save-hint";
+    hint.textContent = l("saveHint");
+    header.prepend(hint);
     const wrap = document.createElement("div");
     wrap.className = "service-cats";
     root.appendChild(header);
@@ -299,7 +311,11 @@ async function loadServicesTab() {
             return;
         }
         const ref = doc(db, "vet_clinics", targetDocId);
-        await updateDoc(ref, {services_list: Array.from(selectedServices.values())});
+        await updateDoc(ref, {
+            services_list: Array.from(selectedServices.values()),
+            last_services_update: new Date().toISOString() // 👈 добавляем дату ISO-формата
+        });
+
         originalSelected.clear();
         for (const [id, v] of selectedServices.entries()) originalSelected.set(id, {...v});
         recomputeServicesDirty();

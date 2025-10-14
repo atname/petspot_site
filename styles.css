@@ -51,10 +51,14 @@ a:focus {
     background: transparent;
 }
 
+
 .hero-inner {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .topbar {
@@ -119,19 +123,16 @@ a:focus {
 
 /* ===== Hero ===== */
 .hero {
-    margin-top: 0;
     background: var(--light-surface);
-    border-radius: 0;
-    padding: 48px 0;
+    padding: 48px 0 64px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, .07);
-    width: 100%;
 }
 
 .hero-body {
     display: flex;
-    gap: 40px;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 40px;
+    gap: 60px;
 }
 
 .hero-body.page-stack {
@@ -146,15 +147,14 @@ a:focus {
 }
 
 .hero-left {
-    flex: 1 1 60%;
+    flex: 1 1 55%;
 }
 
 .hero-right {
-    flex: 1 1 40%;
+    flex: 1 1 45%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 24px;
 }
 
 h1 {
@@ -239,13 +239,10 @@ p {
     border-radius: 28px;
     overflow: hidden;
     background: #fff;
-    position: relative;
 }
 
 .slides {
     display: flex;
-    width: 100%;
-    height: 100%;
     transition: transform .8s ease-in-out;
 }
 
@@ -257,10 +254,10 @@ p {
 }
 
 .phone-wrapper {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .phone-wrapper::before {
