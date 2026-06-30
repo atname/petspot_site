@@ -9,65 +9,124 @@
     <script type="module" src="firebase-init.js"></script>
 </head>
 <body>
-<section class="hero">
-    <div class="hero-inner">
-        <div class="topbar">
-            <div class="logo-block">
-                <div class="logo"><img src="images/logo.png" alt="PetSpot logo" /></div>
-                <span class="logo-text">PetSpot</span>
+<header class="site-header">
+    <div class="site-header__inner">
+        <button class="logo-block" type="button" aria-label="PetSpot home" data-i18n-aria="home_logo_label">
+            <span class="logo"><img src="images/logo.png" alt="PetSpot logo" width="48" height="48" /></span>
+            <span class="logo-text">PetSpot</span>
+        </button>
+
+        <button class="mobile-nav-toggle" type="button" aria-expanded="false" aria-controls="primaryNav" data-i18n-aria="nav_menu_label">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="header-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria="home_primary_nav_label">
+            <a href="#" data-page="home" data-i18n="nav_home" class="active">Home</a>
+            <a href="#" data-page="services" data-i18n="nav_services">Services</a>
+            <a href="#" data-page="clinics" data-i18n="nav_clinics">Clinics</a>
+        </nav>
+
+        <div class="header-actions">
+            <div class="lang-dropdown">
+                <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false">
+                    <img src="images/flags/ru.png" alt="RU" width="22" height="22">
+                    <span>Русский</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button type="button" data-lang="ge">
+                        <img src="images/flags/ge.png" alt="GE" width="20" height="20">
+                        <span>ქართული</span>
+                    </button>
+                    <button type="button" data-lang="ru" class="active">
+                        <img src="images/flags/ru.png" alt="RU" width="20" height="20">
+                        <span>Русский</span>
+                    </button>
+                    <button type="button" data-lang="en">
+                        <img src="images/flags/en.png" alt="EN" width="20" height="20">
+                        <span>English</span>
+                    </button>
+                </div>
             </div>
-            <nav class="header-nav">
-                <a href="#" data-page="home" data-i18n="nav_home" class="active">Home</a>
-                <a href="#" data-page="services" data-i18n="nav_services">Services</a>
-                <a href="#" data-page="clinics" data-i18n="nav_clinics">Clinics</a>
-            </nav>
-
         </div>
+    </div>
+</header>
 
+<main class="home-shell">
+    <section class="hero" aria-labelledby="homeHeroTitle">
         <div id="page-content" class="hero-body">
             <div class="hero-left">
-                <h1 data-i18n="hero_title">PetSpot — an essential helper for you and your pet</h1>
-                <p data-i18n="hero_subtitle">
-                    Online pet passport, services and veterinary clinics in your city.
-                </p>
-
-                <div class="store-row">
-                    <a href="#" class="store-badge">
-                        <img src="images/appstore-badge.png" alt="App Store" />
-                    </a>
-                    <a href="#" class="store-badge">
-                        <img src="images/googleplay-badge.png" alt="Google Play" />
-                    </a>
+                <div class="hero-badge">
+                    <span class="hero-badge__dot" aria-hidden="true">❤</span>
+                    <span data-i18n="home_badge">Everything your pet needs in one app</span>
                 </div>
-
-                <div class="feature-cards">
-                    <div class="card">
-                        <div class="icon"><img src="images/passport.png" alt="Passport" /></div>
-                        <div data-i18n="card_passport">Online Passport</div>
-                    </div>
-                    <div class="card">
-                        <div class="icon"><img src="images/services.png" alt="Services Nearby" /></div>
-                        <div data-i18n="card_services">Services Nearby</div>
-                    </div>
-                    <div class="card">
-                        <div class="icon"><img src="images/clinics.png" alt="Clinics with services" /></div>
-                        <div data-i18n="card_clinic">Clinics with services</div>
+                <h1 id="homeHeroTitle" class="hero-title">
+                    <span data-i18n="home_title_before">Pet care made</span>
+                    <span class="hero-title__accent" data-i18n="home_title_accent">easier</span>
+                </h1>
+                <p class="hero-copy" data-i18n="home_description">
+                    PetSpot brings together essential services, clinics and people to help pets stay healthy and happy.
+                </p>
+                <a href="#" class="hero-cta" data-i18n="home_cta">Open the app</a>
+                <div class="download-block">
+                    <p class="download-label" data-i18n="home_download_label">Download the app</p>
+                    <div class="store-row" aria-label="App store links">
+                        <a href="#" class="store-badge" aria-label="App Store">
+                            <img src="images/appstore-badge.png" alt="App Store" width="180" height="54" />
+                        </a>
+                        <a href="#" class="store-badge" aria-label="Google Play">
+                            <img src="images/googleplay-badge.png" alt="Google Play" width="180" height="54" />
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="hero-right">
-                <div class="phone-wrapper">
-                    <div class="phone">
-                        <div class="slider">
-                            <div class="slides" id="slides"></div>
+                <div class="hero-visual" aria-label="PetSpot app preview" data-i18n-aria="home_visual_label">
+                    <img class="decor decor-blob decor-blob--mint" src="images/home/decor-blob-mint.png" alt="" aria-hidden="true" onerror="this.remove();">
+                    <img class="decor decor-blob decor-blob--peach" src="images/home/decor-blob-peach.png" alt="" aria-hidden="true" onerror="this.remove();">
+                    <img class="decor decor-paw decor-paw--one" src="images/home/decor-paw-soft.png" alt="" aria-hidden="true" onerror="this.remove();">
+                    <img class="decor decor-paw decor-paw--two" src="images/home/decor-paw-soft.png" alt="" aria-hidden="true" onerror="this.remove();">
+                    <svg class="decor decor-dash" viewBox="0 0 520 360" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M48 124C118 38 252 46 292 128C330 204 226 218 250 278C276 342 428 312 476 228" stroke="#E9B88F" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 12" opacity="0.7"/>
+                    </svg>
+
+                    <div class="hero-photo-frame">
+                        <picture>
+                            <source srcset="images/home/hero-woman-cat.webp" type="image/webp">
+                            <img class="hero-photo" src="images/home/hero-woman-cat.webp" alt="Woman holding a cat" data-i18n-alt="home_hero_image_alt" width="920" height="680" loading="eager" onerror="document.querySelector('.hero-photo-frame')?.classList.add('hero-photo-frame--missing'); this.remove();">
+                        </picture>
+                    </div>
+
+                    <div class="hero-preview-card hero-preview-card--services">
+                        <div class="preview-card__heading">
+                            <span class="preview-icon preview-icon--pin" aria-hidden="true">⌖</span>
+                            <strong data-i18n="home_nearby_title">Near you</strong>
                         </div>
+                        <ul class="preview-list">
+                            <li><span class="mini-icon mini-icon--mint" aria-hidden="true">✚</span><span data-i18n="home_nearby_vets">Veterinary clinics</span></li>
+                            <li><span class="mini-icon mini-icon--peach" aria-hidden="true">✂</span><span data-i18n="home_nearby_grooming">Grooming</span></li>
+                            <li><span class="mini-icon mini-icon--yellow" aria-hidden="true">⌂</span><span data-i18n="home_nearby_boarding">Pet boarding</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="hero-preview-card hero-preview-card--pet">
+                        <div class="preview-card__heading">
+                            <span class="preview-icon preview-icon--pet" aria-hidden="true">🐾</span>
+                            <strong data-i18n="home_pet_tools_title">Pet tools</strong>
+                        </div>
+                        <ul class="preview-list preview-list--compact">
+                            <li><span class="mini-icon mini-icon--mint" aria-hidden="true">▣</span><span data-i18n="home_pet_passport">Passport</span></li>
+                            <li><span class="mini-icon mini-icon--peach" aria-hidden="true">⏱</span><span data-i18n="home_pet_reminders">Reminders</span></li>
+                            <li><span class="mini-icon mini-icon--yellow" aria-hidden="true">☑</span><span data-i18n="home_pet_bookings">My bookings</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</main>
 
 <footer class="footer">
     <div class="footer-inner">
@@ -92,29 +151,6 @@
             <a href="https://t.me/petspot" target="_blank" rel="noopener">Telegram</a>
         </div>
 
-        <div class="footer-col">
-            <h4 data-i18n="footer_lang">Язык</h4>
-            <div class="lang-dropdown">
-                <button class="lang-btn">
-                    <img src="images/flags/ru.png" alt="RU">
-                    <span>Русский</span>
-                </button>
-                <div class="dropdown-menu">
-                    <button data-lang="ge">
-                        <img src="images/flags/ge.png" alt="GE">
-                        <span>ქართული</span>
-                    </button>
-                    <button data-lang="ru" class="active">
-                        <img src="images/flags/ru.png" alt="RU">
-                        <span>Русский</span>
-                    </button>
-                    <button data-lang="en">
-                        <img src="images/flags/en.png" alt="EN">
-                        <span>English</span>
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="footer-bottom">© 2025 PetSpot</div>
 </footer>
