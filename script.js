@@ -17,6 +17,8 @@ const dropdown = document.querySelector(".lang-dropdown");
 const langOptions = document.querySelectorAll(".dropdown-menu button");
 const pageContent = document.getElementById("page-content");
 const navLinks = document.querySelectorAll(".header-nav a");
+const mobileNavToggle = document.querySelector(".mobile-nav-toggle");
+const headerNav = document.querySelector(".header-nav");
 
 // Домашняя разметка (слайдер внутри неё)
 const homeContent = pageContent.innerHTML;
@@ -24,6 +26,25 @@ const homeContent = pageContent.innerHTML;
 // ================ TRANSLATIONS ====================
 const translations = {
     ru: {
+        home_badge: "Всё для питомца в одном приложении",
+        home_title_before: "Забота о питомце стала",
+        home_title_accent: "проще",
+        home_description: "PetSpot объединяет важные сервисы, клиники и людей, чтобы питомцы были здоровы и счастливы.",
+        home_cta: "Открыть приложение",
+        home_download_label: "Скачайте приложение",
+        home_nearby_title: "Рядом с вами",
+        home_nearby_vets: "Ветеринарные клиники",
+        home_nearby_grooming: "Груминг",
+        home_nearby_boarding: "Передержка",
+        home_pet_tools_title: "Возможности питомца",
+        home_pet_passport: "Паспорт",
+        home_pet_reminders: "Напоминания",
+        home_pet_bookings: "Мои записи",
+        nav_menu_label: "Открыть меню",
+        home_logo_label: "На главную PetSpot",
+        home_primary_nav_label: "Основная навигация",
+        home_visual_label: "Превью приложения PetSpot",
+        home_hero_image_alt: "Девушка держит кошку",
         hero_title: "PetSpot — незаменимый помощник для вас и вашего питомца",
         hero_subtitle:
             "Онлайн-паспорт питомца, услуги и ветеринарные клиники в вашем городе.",
@@ -77,6 +98,25 @@ const translations = {
         nothing_found: "Ничего не найдено ☹️",
     },
     ge: {
+        home_badge: "ყველაფერი თქვენი ცხოველისთვის ერთ აპში",
+        home_title_before: "ცხოველზე ზრუნვა გახდა",
+        home_title_accent: "მარტივი",
+        home_description: "PetSpot აერთიანებს საჭირო სერვისებს, კლინიკებსა და ადამიანებს, რათა ცხოველები ჯანმრთელები და ბედნიერები იყვნენ.",
+        home_cta: "აპის გახსნა",
+        home_download_label: "ჩამოტვირთეთ აპი",
+        home_nearby_title: "თქვენთან ახლოს",
+        home_nearby_vets: "ვეტერინარული კლინიკები",
+        home_nearby_grooming: "გრუმინგი",
+        home_nearby_boarding: "დროებითი მოვლა",
+        home_pet_tools_title: "ცხოველის შესაძლებლობები",
+        home_pet_passport: "პასპორტი",
+        home_pet_reminders: "შეხსენებები",
+        home_pet_bookings: "ჩემი ჩანაწერები",
+        nav_menu_label: "მენიუს გახსნა",
+        home_logo_label: "PetSpot-ის მთავარ გვერდზე",
+        home_primary_nav_label: "მთავარი ნავიგაცია",
+        home_visual_label: "PetSpot აპის გადახედვა",
+        home_hero_image_alt: "გოგონას კატა უჭირავს",
         hero_title:
             "PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის",
         hero_subtitle:
@@ -128,6 +168,25 @@ const translations = {
         nothing_found: "ვერაფერი მოიძებნა ☹️",
     },
     en: {
+        home_badge: "Everything your pet needs in one app",
+        home_title_before: "Pet care made",
+        home_title_accent: "easier",
+        home_description: "PetSpot brings together essential services, clinics and people to help pets stay healthy and happy.",
+        home_cta: "Open the app",
+        home_download_label: "Download the app",
+        home_nearby_title: "Near you",
+        home_nearby_vets: "Veterinary clinics",
+        home_nearby_grooming: "Grooming",
+        home_nearby_boarding: "Pet boarding",
+        home_pet_tools_title: "Pet tools",
+        home_pet_passport: "Passport",
+        home_pet_reminders: "Reminders",
+        home_pet_bookings: "My bookings",
+        nav_menu_label: "Open menu",
+        home_logo_label: "Go to PetSpot home",
+        home_primary_nav_label: "Primary navigation",
+        home_visual_label: "PetSpot app preview",
+        home_hero_image_alt: "Woman holding a cat",
         hero_title: "PetSpot — an essential helper for you and your pet",
         hero_subtitle:
             "Online pet passport, services and veterinary clinics in your city.",
@@ -207,6 +266,18 @@ function applyTranslations(lang = currentLang) {
         const tr = translations[lang] && translations[lang][key];
         if (tr) el.textContent = tr;
     });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+        const key = el.dataset.i18nAria;
+        const tr = translations[lang] && translations[lang][key];
+        if (tr) el.setAttribute("aria-label", tr);
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+        const key = el.dataset.i18nAlt;
+        const tr = translations[lang] && translations[lang][key];
+        if (tr) el.setAttribute("alt", tr);
+    });
 }
 const getSlidesContainer = () => document.getElementById("slides");
 
@@ -277,7 +348,10 @@ function setLanguage(lang) {
 
 // ================ DROPDOWN ===================
 if (langBtn) {
-    langBtn.addEventListener("click", () => dropdown.classList.toggle("open"));
+    langBtn.addEventListener("click", () => {
+        const isOpen = dropdown.classList.toggle("open");
+        langBtn.setAttribute("aria-expanded", String(isOpen));
+    });
     langOptions.forEach((btn) => {
         btn.addEventListener("click", () => {
             const lang = btn.dataset.lang;
@@ -286,12 +360,23 @@ if (langBtn) {
             langBtn.querySelector("span").textContent =
                 btn.querySelector("span").textContent;
             dropdown.classList.remove("open");
+            langBtn.setAttribute("aria-expanded", "false");
         });
     });
     document.addEventListener("click", (e) => {
         if (!dropdown.contains(e.target) && !langBtn.contains(e.target)) {
             dropdown.classList.remove("open");
+            langBtn.setAttribute("aria-expanded", "false");
         }
+    });
+}
+
+// ================ MOBILE NAV ==================
+if (mobileNavToggle && headerNav) {
+    mobileNavToggle.addEventListener("click", () => {
+        const isOpen = headerNav.classList.toggle("is-open");
+        mobileNavToggle.classList.toggle("is-open", isOpen);
+        mobileNavToggle.setAttribute("aria-expanded", String(isOpen));
     });
 }
 
@@ -348,6 +433,9 @@ navLinks.forEach((link) => {
         const page = link.dataset.page;
         navLinks.forEach((l) => l.classList.remove("active"));
         link.classList.add("active");
+        headerNav?.classList.remove("is-open");
+        mobileNavToggle?.classList.remove("is-open");
+        mobileNavToggle?.setAttribute("aria-expanded", "false");
         showPage(page);
     });
 });
