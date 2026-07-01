@@ -29,6 +29,7 @@
         </nav>
 
         <div class="header-actions">
+            <a class="login-btn" href="clinic/login/" data-i18n="nav_login">Войти</a>
             <div class="lang-dropdown">
                 <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false">
                     <img src="images/flags/ru.png" alt="RU" width="22" height="22">
@@ -84,10 +85,6 @@
 
             <div class="hero-right">
                 <div class="hero-visual" aria-label="PetSpot app preview" data-i18n-aria="home_visual_label">
-                    <img class="decor decor-blob decor-blob--mint" src="images/home/decor-blob-mint.png" alt="" aria-hidden="true" onerror="this.remove();">
-                    <img class="decor decor-blob decor-blob--peach" src="images/home/decor-blob-peach.png" alt="" aria-hidden="true" onerror="this.remove();">
-                    <img class="decor decor-paw decor-paw--one" src="images/home/decor-paw-soft.png" alt="" aria-hidden="true" onerror="this.remove();">
-                    <img class="decor decor-paw decor-paw--two" src="images/home/decor-paw-soft.png" alt="" aria-hidden="true" onerror="this.remove();">
                     <svg class="decor decor-dash" viewBox="0 0 520 360" fill="none" aria-hidden="true" focusable="false">
                         <path d="M48 124C118 38 252 46 292 128C330 204 226 218 250 278C276 342 428 312 476 228" stroke="#E9B88F" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 12" opacity="0.7"/>
                     </svg>
@@ -124,6 +121,47 @@
                     </div>
                 </div>
             </div>
+
+            <section class="home-section feature-strip" aria-labelledby="homeFeaturesTitle">
+                <h2 id="homeFeaturesTitle" class="sr-only" data-i18n="home_features_sr">Возможности PetSpot</h2>
+                <div class="feature-grid">
+                    <article class="feature-tile feature-tile--mint">
+                        <h3 data-i18n="feature_passport_title">Онлайн-паспорт питомца</h3>
+                        <p data-i18n="feature_passport_text">Храните данные питомца, отслеживайте вес и добавляйте вакцинации в одном месте.</p>
+                        <img src="images/passport.png" alt="" loading="lazy">
+                    </article>
+                    <article class="feature-tile feature-tile--peach">
+                        <h3 data-i18n="feature_services_title">Сервисы рядом с вами</h3>
+                        <p data-i18n="feature_services_text">Находите груминг, передержку и другие услуги PetSpot рядом с вашим городом.</p>
+                        <img src="images/services.png" alt="" loading="lazy">
+                    </article>
+                    <article class="feature-tile feature-tile--yellow">
+                        <h3 data-i18n="feature_clinics_title">Клиники</h3>
+                        <p data-i18n="feature_clinics_text">Смотрите список клиник, карту, адреса и информацию об услугах.</p>
+                        <img src="images/clinics.png" alt="" loading="lazy">
+                    </article>
+                    <article class="feature-tile feature-tile--mint">
+                        <h3 data-i18n="feature_adopt_title">Помогайте и находите дом</h3>
+                        <p data-i18n="feature_adopt_text">Объявления помогают животным, которые ищут семью, быстрее встретить своих людей.</p>
+                        <img src="images/clinic.png" alt="" loading="lazy">
+                    </article>
+                </div>
+            </section>
+
+            <section class="home-section popular-services" aria-labelledby="popularServicesTitle">
+                <div class="section-heading">
+                    <h2 id="popularServicesTitle" data-i18n="popular_services_title">Популярные услуги</h2>
+                </div>
+                <div id="homeServicesGrid" class="home-services-grid" aria-live="polite"></div>
+            </section>
+
+            <section class="home-section home-clinics" aria-labelledby="homeClinicsTitle">
+                <div class="section-heading section-heading--row">
+                    <h2 id="homeClinicsTitle" data-i18n="home_clinics_title">Клиники</h2>
+                    <button class="section-link" type="button" data-home-page="clinics" data-i18n="home_clinics_all">Смотреть все клиники</button>
+                </div>
+                <div id="homeClinicsGrid" class="home-clinics-grid" aria-live="polite"></div>
+            </section>
         </div>
     </section>
 </main>

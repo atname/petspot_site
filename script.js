@@ -26,6 +26,27 @@ const homeContent = pageContent.innerHTML;
 // ================ TRANSLATIONS ====================
 const translations = {
     ru: {
+        nav_login: "Войти",
+        home_features_sr: "Возможности PetSpot",
+        feature_passport_title: "Онлайн-паспорт питомца",
+        feature_passport_text: "Храните данные питомца, отслеживайте вес и добавляйте вакцинации в одном месте.",
+        feature_services_title: "Сервисы рядом с вами",
+        feature_services_text: "Находите груминг, передержку и другие услуги PetSpot рядом с вашим городом.",
+        feature_clinics_title: "Клиники",
+        feature_clinics_text: "Смотрите список клиник, карту, адреса и информацию об услугах.",
+        feature_adopt_title: "Помогайте и находите дом",
+        feature_adopt_text: "Объявления помогают животным, которые ищут семью, быстрее встретить своих людей.",
+        popular_services_title: "Популярные услуги",
+        home_services_more: "Ещё услуги",
+        home_services_loading: "Загружаем услуги…",
+        home_services_empty: "Услуги пока не добавлены",
+        home_services_error: "Не удалось загрузить услуги",
+        home_clinics_title: "Клиники",
+        home_clinics_all: "Смотреть все клиники",
+        home_clinics_loading: "Загружаем клиники…",
+        home_clinics_empty: "Клиники пока не добавлены",
+        home_clinics_error: "Не удалось загрузить клиники",
+
         home_badge: "Всё для питомца в одном приложении",
         home_title_before: "Забота о питомце стала",
         home_title_accent: "проще",
@@ -98,6 +119,27 @@ const translations = {
         nothing_found: "Ничего не найдено ☹️",
     },
     ge: {
+        nav_login: "შესვლა",
+        home_features_sr: "PetSpot-ის შესაძლებლობები",
+        feature_passport_title: "ცხოველის ონლაინ პასპორტი",
+        feature_passport_text: "შეინახეთ ცხოველის მონაცემები, აკონტროლეთ წონა და დაამატეთ ვაქცინაციები ერთ სივრცეში.",
+        feature_services_title: "სერვისები თქვენთან ახლოს",
+        feature_services_text: "იპოვეთ გრუმინგი, დროებითი მოვლა და PetSpot-ის სხვა სერვისები თქვენს ქალაქთან ახლოს.",
+        feature_clinics_title: "კლინიკები",
+        feature_clinics_text: "ნახეთ კლინიკების სია, რუკა, მისამართები და ინფორმაცია სერვისებზე.",
+        feature_adopt_title: "დაეხმარეთ და იპოვეთ სახლი",
+        feature_adopt_text: "განცხადებები ეხმარება ოჯახს მაძიებელ ცხოველებს სწრაფად იპოვონ თავიანთი ადამიანები.",
+        popular_services_title: "პოპულარული სერვისები",
+        home_services_more: "მეტი სერვისი",
+        home_services_loading: "სერვისები იტვირთება…",
+        home_services_empty: "სერვისები ჯერ არ დამატებულა",
+        home_services_error: "სერვისების ჩატვირთვა ვერ მოხერხდა",
+        home_clinics_title: "კლინიკები",
+        home_clinics_all: "ყველა კლინიკის ნახვა",
+        home_clinics_loading: "კლინიკები იტვირთება…",
+        home_clinics_empty: "კლინიკები ჯერ არ დამატებულა",
+        home_clinics_error: "კლინიკების ჩატვირთვა ვერ მოხერხდა",
+
         home_badge: "ყველაფერი თქვენი ცხოველისთვის ერთ აპში",
         home_title_before: "ცხოველზე ზრუნვა გახდა",
         home_title_accent: "მარტივი",
@@ -168,6 +210,27 @@ const translations = {
         nothing_found: "ვერაფერი მოიძებნა ☹️",
     },
     en: {
+        nav_login: "Log in",
+        home_features_sr: "PetSpot features",
+        feature_passport_title: "Online pet passport",
+        feature_passport_text: "Keep pet details, track weight and add vaccinations in one place.",
+        feature_services_title: "Services near you",
+        feature_services_text: "Find grooming, boarding and other PetSpot services near your city.",
+        feature_clinics_title: "Clinics",
+        feature_clinics_text: "Browse clinics, the map, addresses and service information.",
+        feature_adopt_title: "Help and find a home",
+        feature_adopt_text: "Animal listings help pets looking for a family meet their people sooner.",
+        popular_services_title: "Popular services",
+        home_services_more: "More services",
+        home_services_loading: "Loading services…",
+        home_services_empty: "No services yet",
+        home_services_error: "Could not load services",
+        home_clinics_title: "Clinics",
+        home_clinics_all: "See all clinics",
+        home_clinics_loading: "Loading clinics…",
+        home_clinics_empty: "No clinics yet",
+        home_clinics_error: "Could not load clinics",
+
         home_badge: "Everything your pet needs in one app",
         home_title_before: "Pet care made",
         home_title_accent: "easier",
@@ -259,6 +322,19 @@ let lastClinicsView = "list";
 // helpers
 const t = (key) => (translations[currentLang] || translations.ru)[key];
 
+const escapeHtml = (value = "") => String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+const localizedName = (item = {}) => currentLang === "ru"
+    ? (item.ruName || item.name || item.enName || item.geName || "")
+    : currentLang === "ge"
+        ? (item.geName || item.name || item.enName || item.ruName || "")
+        : (item.enName || item.name || item.ruName || item.geName || "");
+const localizedAddress = (item = {}) => currentLang === "ru" ? item.ruAddress : currentLang === "ge" ? item.geAddress : item.enAddress;
+
 function applyTranslations(lang = currentLang) {
     const els = document.querySelectorAll("[data-i18n]");
     els.forEach((el) => {
@@ -335,6 +411,7 @@ function setLanguage(lang) {
     if (currentPage === "home") {
         renderSlides();
         restartSlider();
+        renderHomeDynamicSections();
     } else if (currentPage === "services") {
         renderServicesPage();
     } else if (currentPage === "clinics") {
@@ -380,6 +457,15 @@ if (mobileNavToggle && headerNav) {
     });
 }
 
+// ================ DATA LOADERS ===============
+const fetchServiceCategories = () => loadServiceCategories();
+const fetchClinicServiceCategories = () =>
+    typeof loadClinicServiceCategories === "function"
+        ? loadClinicServiceCategories()
+        : loadServiceCategories(); // фоллбек, если нет отдельной функции
+const fetchUsersServices = () => loadUserServices();
+const fetchCities = () => loadCities();
+
 // ================= INIT ======================
 setLanguage(currentLang);
 const initialBtn = document.querySelector(
@@ -419,6 +505,7 @@ function showPage(page) {
         if (page === "home") {
             renderSlides();
             restartSlider();
+            renderHomeDynamicSections();
         }
         pageContent.classList.remove("fade-out");
         pageContent.classList.add("fade-in");
@@ -477,14 +564,64 @@ document.addEventListener("click", (e) => {
     showPage(page);
 });
 
-// ================ DATA LOADERS ===============
-const fetchServiceCategories = () => loadServiceCategories();
-const fetchClinicServiceCategories = () =>
-    typeof loadClinicServiceCategories === "function"
-        ? loadClinicServiceCategories()
-        : loadServiceCategories(); // фоллбек, если нет отдельной функции
-const fetchUsersServices = () => loadUserServices();
-const fetchCities = () => loadCities();
+
+async function renderHomeDynamicSections() {
+    const servicesEl = document.getElementById("homeServicesGrid");
+    const clinicsEl = document.getElementById("homeClinicsGrid");
+    document.querySelectorAll("[data-home-page]").forEach((btn) => {
+        btn.onclick = () => {
+            const page = btn.dataset.homePage;
+            document.querySelectorAll(".header-nav a").forEach((a) => a.classList.toggle("active", a.dataset.page === page));
+            showPage(page);
+        };
+    });
+    if (servicesEl) {
+        servicesEl.innerHTML = `<div class="home-state">${t("home_services_loading")}</div>`;
+        try {
+            const categories = await fetchServiceCategories();
+            window.__homeServiceCount = categories.length;
+            if (!categories.length) servicesEl.innerHTML = `<div class="home-state">${t("home_services_empty")}</div>`;
+            else {
+                servicesEl.innerHTML = categories.slice(0, 6).map((c, i) => `<button class="home-service-chip" type="button" data-category="${escapeHtml(c.id)}"><span class="home-service-icon">${["⚕","✂","✚","🐕","⌂","▣"][i] || "•"}</span><strong>${escapeHtml(localizedName(c))}</strong></button>`).join("") + `<button class="home-service-chip home-service-chip--more" type="button" data-more-services><span class="home-service-icon">•••</span><strong>${t("home_services_more")}</strong></button>`;
+                servicesEl.querySelectorAll("[data-category]").forEach((btn) => btn.addEventListener("click", () => {
+                    navLinks.forEach((a) => a.classList.toggle("active", a.dataset.page === "services"));
+                    showPage("services");
+                    setTimeout(() => renderServicesPage("all", [btn.dataset.category]), 220);
+                }));
+                servicesEl.querySelector("[data-more-services]")?.addEventListener("click", () => {
+                    navLinks.forEach((a) => a.classList.toggle("active", a.dataset.page === "services"));
+                    showPage("services");
+                });
+            }
+        } catch (err) {
+            console.error("Homepage services failed", err);
+            servicesEl.innerHTML = `<div class="home-state home-state--error">${t("home_services_error")}</div>`;
+        }
+    }
+    if (clinicsEl) {
+        clinicsEl.innerHTML = `<div class="home-state">${t("home_clinics_loading")}</div>`;
+        try {
+            const [clinics, cities, cats] = await Promise.all([loadVetClinics(), fetchCities(), fetchClinicServiceCategories()]);
+            window.__homeClinicCount = clinics.length;
+            if (!clinics.length) clinicsEl.innerHTML = `<div class="home-state">${t("home_clinics_empty")}</div>`;
+            else clinicsEl.innerHTML = clinics.slice(0, 3).map((c, idx) => {
+                const city = cities.find((ct) => String(ct.id) === String(c.cityId));
+                const st = getClinicStatus(c);
+                const services = Array.isArray(c.services_list) ? c.services_list.slice(0, 3).map((svc) => cats.find((cat) => String(cat.id) === String(svc.category_id ?? svc.categoryId))).filter(Boolean).map(localizedName) : [];
+                const img = c.photoUrl && String(c.photoUrl).trim() ? c.photoUrl : "images/clinic.png";
+                return `<button class="home-clinic-card" type="button" data-idx="${idx}"><img src="${escapeHtml(img)}" alt="" onerror="this.onerror=null;this.src='images/clinic.png'"><span><strong>${escapeHtml(localizedName(c))}</strong><small>${escapeHtml(city ? localizedName(city) : "")}</small><small>${escapeHtml(localizedAddress(c) || "")}</small>${services.length ? `<em>${services.map(escapeHtml).join(", ")}</em>` : ""}<b class="clinic-status ${st.color === "green" ? "clinic-status--open" : st.color === "red" ? "clinic-status--closed" : "clinic-status--unknown"}">${escapeHtml(st[currentLang] || st.ru)}</b></span></button>`;
+            }).join("");
+            clinicsEl.querySelectorAll(".home-clinic-card").forEach((card) => card.addEventListener("click", () => {
+                const clinic = clinics[Number(card.dataset.idx)];
+                window.__currentClinic = clinic; window.__currentCities = cities; window.__currentCategories = cats;
+                renderClinicDetails(clinic, cities, cats);
+            }));
+        } catch (err) {
+            console.error("Homepage clinics failed", err);
+            clinicsEl.innerHTML = `<div class="home-state home-state--error">${t("home_clinics_error")}</div>`;
+        }
+    }
+}
 
 // ================= SERVICES PAGE ============
 async function renderServicesPage(selectedCityId = "all", selectedTypes = []) {
