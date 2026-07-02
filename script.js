@@ -66,6 +66,9 @@ const translations = {
         home_primary_nav_label: "Основная навигация",
         home_visual_label: "Превью приложения PetSpot",
         home_hero_image_alt: "Девушка держит кошку",
+        home_map_cta: "Посмотреть клиники на карте",
+        home_map_cta_aria: "Открыть клиники в режиме карты",
+        home_map_preview_label: "Мини-карта клиник PetSpot",
         hero_title: "PetSpot — незаменимый помощник для вас и вашего питомца",
         hero_subtitle:
             "Онлайн-паспорт питомца, услуги и ветеринарные клиники в вашем городе.",
@@ -159,6 +162,9 @@ const translations = {
         home_primary_nav_label: "მთავარი ნავიგაცია",
         home_visual_label: "PetSpot აპის გადახედვა",
         home_hero_image_alt: "გოგონას კატა უჭირავს",
+        home_map_cta: "კლინიკების რუკაზე ნახვა",
+        home_map_cta_aria: "კლინიკების რუკის რეჟიმში გახსნა",
+        home_map_preview_label: "PetSpot-ის კლინიკების მინი-რუკა",
         hero_title:
             "PetSpot — შეუცვლელი დამხმარე თქვენთვის და თქვენი ცხოველისთვის",
         hero_subtitle:
@@ -250,6 +256,9 @@ const translations = {
         home_primary_nav_label: "Primary navigation",
         home_visual_label: "PetSpot app preview",
         home_hero_image_alt: "Woman holding a cat",
+        home_map_cta: "View clinics on the map",
+        home_map_cta_aria: "Open clinics in map view",
+        home_map_preview_label: "PetSpot clinics mini map",
         hero_title: "PetSpot — an essential helper for you and your pet",
         hero_subtitle:
             "Online pet passport, services and veterinary clinics in your city.",
@@ -564,6 +573,22 @@ document.addEventListener("click", (e) => {
     showPage(page);
 });
 
+
+function openClinicsMapFromHome() {
+    lastClinicsView = "map";
+    document.querySelectorAll(".header-nav a").forEach((a) => a.classList.toggle("active", a.dataset.page === "clinics"));
+    headerNav?.classList.remove("is-open");
+    mobileNavToggle?.classList.remove("is-open");
+    mobileNavToggle?.setAttribute("aria-expanded", "false");
+    showPage("clinics");
+}
+
+document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-open-clinics-map]");
+    if (!trigger) return;
+    e.preventDefault();
+    openClinicsMapFromHome();
+});
 
 async function renderHomeDynamicSections() {
     const servicesEl = document.getElementById("homeServicesGrid");
