@@ -30,27 +30,8 @@
         </nav>
 
         <div class="header-actions">
+            <button class="help-btn" type="button" aria-label="Помощь">?</button>
             <a class="login-btn" href="clinic/login/" data-i18n="nav_login">Войти</a>
-            <div class="lang-dropdown">
-                <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="images/flags/ru.png" alt="RU" width="22" height="22">
-                    <span>Русский</span>
-                </button>
-                <div class="dropdown-menu">
-                    <button type="button" data-lang="ge">
-                        <img src="images/flags/ge.png" alt="GE" width="20" height="20">
-                        <span>ქართული</span>
-                    </button>
-                    <button type="button" data-lang="ru" class="active">
-                        <img src="images/flags/ru.png" alt="RU" width="20" height="20">
-                        <span>Русский</span>
-                    </button>
-                    <button type="button" data-lang="en">
-                        <img src="images/flags/en.png" alt="EN" width="20" height="20">
-                        <span>English</span>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </header>
@@ -103,7 +84,7 @@
                         <button class="hero-map-link" type="button" data-open-clinics-map data-i18n="home_map_cta" data-i18n-aria="home_map_cta_aria">View clinics on the map</button>
                     </article>
 
-                    <div class="hero-apartment-layer" aria-hidden="true"><img src="images/home/hero-apartment-background.webp" alt="" width="1200" height="900"></div>
+                    <div class="hero-apartment-layer" aria-hidden="true"></div>
 
                     <div class="hero-photo-frame">
                         <picture>
@@ -203,6 +184,30 @@
             <h4 data-i18n="footer_contacts">Контакты</h4>
             <a href="mailto:support@petspot.love">support@petspot.love</a>
             <a href="https://t.me/petspot" target="_blank" rel="noopener">Telegram</a>
+        </div>
+
+        <div class="footer-col footer-col--language">
+            <h4>Language</h4>
+            <div class="lang-dropdown">
+                <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false">
+                    <img src="images/flags/ru.png" alt="RU" width="22" height="22">
+                    <span>Русский</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button type="button" data-lang="ge">
+                        <img src="images/flags/ge.png" alt="GE" width="20" height="20">
+                        <span>ქართული</span>
+                    </button>
+                    <button type="button" data-lang="ru" class="active">
+                        <img src="images/flags/ru.png" alt="RU" width="20" height="20">
+                        <span>Русский</span>
+                    </button>
+                    <button type="button" data-lang="en">
+                        <img src="images/flags/en.png" alt="EN" width="20" height="20">
+                        <span>English</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
